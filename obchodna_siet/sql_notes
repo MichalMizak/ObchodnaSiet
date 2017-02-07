@@ -1,0 +1,24 @@
+Oracle databaza:
+
+Oracle Database Express Edition:
+http://www.oracle.com/technetwork/database/database-technologies/express-
+edition/downloads/index.html
+
+Oracle SQL Developer:
+http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index-
+097090.html
+
+Pridanie drivera na Oracle databazu, kedze cez Maven som ju nenasiel:
+http://stackoverflow.com/questions/17693040/adding-external-jar-to-maven-project-in-
+netbeans
+
+// oracle default: system - root
+
+Vytvorenie vlastnej schemy (user name musi byt rovnake ako schema name):
+CREATE USER obchodna_siet IDENTIFIED BY password;
+GRANT CREATE SESSION TO obchodna_siet;
+GRANT ALL PRIVILEGES TO obchodna_siet;
+CREATE SCHEMA AUTHORIZATION obchodna_siet;
+
+produkt_sequence.nextval treba pridat do insertu, kedze neexistuje autoincrement
+SELECT * FROM USER_SEQUENCES

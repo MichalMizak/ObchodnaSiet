@@ -1,0 +1,62 @@
+kreativita:      obchod								
+									|
+----------------------------------------------------------------------------------------|
+design:			 ******							
+										
+|
+----------------------------------------------------------------------------------------|
+entity:          predajňa, predavač, produkt						
+					|
+entity predajňa: názov, miesto, otváracie hodiny, výdaj, príjem				
+			|
+entity predavač: meno, priezvisko, predajňa, odpracovaný čas, zisk z predaja, plat		
+|
+entity produkt:  názov, nakupná cena, predajná cena, zľava, počet kusov			
+		|
+----------------------------------------------------------------------------------------|
+okná:            predajňa, predavač, produkt, pokladňa					
+				|
+----------------------------------------------------------------------------------------|
+DAO predajňa:    pridať predajňu, odobrať predajňu, upraviť predajňu, vyčísliť zisk		
+|
+DAO predavač:    pridať predavača, odobrať predavača, upraviť predavača, vyčísliť zisk	|
+DAO produkt:     pridať produkt, odobrať produkt, upraviť produkt, vyčísliť zisk		|
+----------------------------------------------------------------------------------------|
+
+prevadzka
+	int(11)			id
+	varchar(50)		nazov
+	varchar(100)	adresa
+	?varchar(100)	otvaracia_hodiny?
+naklad
+	int(11)			id
+	int(11)			prevadzka_id
+	varchar(50)		popis
+	datatime		datum
+	double			suma
+prijem
+	int(11)			id
+        int(11)			prevadzka_id
+	varchar(50)		popis
+	datatime		datum
+	double			suma
+zamestnanec
+	int(11)			id
+	varchar(45)		meno
+	varchar(45)		priezvisko
+	int(11)			prevadzka_id
+	?double			odpracovany_cas?
+	?double			zisk_z_predaja?
+	double			plat_brutto
+produkt
+	int(11)			id
+	varchar(50)		nazov
+	double			nakupna cena
+	double			predajna cena
+produkt_na_predajni
+	int(11)			produkt_id
+	int(11)			prevadzka_id
+	?double			zlava?
+	int(11)			kusy
+
+
