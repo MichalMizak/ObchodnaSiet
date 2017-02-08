@@ -5,6 +5,7 @@ import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prijem;
 
 public class ProduktNaPredajniDaoImpl implements ProduktNaPredajniDao {
 
@@ -51,9 +52,16 @@ public class ProduktNaPredajniDaoImpl implements ProduktNaPredajniDao {
     }
 
     @Override
+    public List<ProduktNaPredajni> getByPrevadzka(Long prevadzkaId) {
+        String sql = "SELECT * FROM produkt_na_predajni WHERE prevadzka_id=?";
+        BeanPropertyRowMapper<ProduktNaPredajni> rowMapper = new BeanPropertyRowMapper<>(ProduktNaPredajni.class);
+        List<ProduktNaPredajni> result = jdbcTemplate.query(sql, rowMapper, prevadzkaId);
+        return result;
+    }
+
+    @Override
     public void delete(Long produktId, Long prevadzkaId) {
         String sql = "DELETE FROM produkt_na_predajni WHERE produkt_id=" + produktId + " AND prevadzka_id=" + prevadzkaId;
         jdbcTemplate.execute(sql);
     }
-
 }

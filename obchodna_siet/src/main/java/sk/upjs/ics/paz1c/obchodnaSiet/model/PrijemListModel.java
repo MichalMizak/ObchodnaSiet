@@ -13,7 +13,7 @@ public class PrijemListModel extends AbstractListModel<Prijem> {
 
     public PrijemListModel() {
         prijemDao = DaoFactory.INSTANCE.getPrijemDao();
-        prijmy = prijemDao.nacitajVsetkyPrijmy();
+        prijmy = prijemDao.getPrijmy();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class PrijemListModel extends AbstractListModel<Prijem> {
     }
 
     public void refresh(){
-        prijmy = prijemDao.nacitajVsetkyPrijmy();
+        prijmy = prijemDao.getPrijmy();
         fireContentsChanged(this, 0, getSize());
     }
     

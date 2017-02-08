@@ -37,7 +37,8 @@ public class ProduktDaoImpl extends Backupable implements ProduktDao {
     public Produkt getById(Long id) {
         String sql = "SELECT * FROM " + getTableName().toString() + " WHERE id =" + id;
         BeanPropertyRowMapper<Produkt> rowMapper = new BeanPropertyRowMapper<>(Produkt.class);
-        return jdbcTemplate.queryForObject(sql, rowMapper);
+        List<Produkt> result = jdbcTemplate.query(sql, rowMapper);
+        return result.isEmpty() ? null : result.get(0);
     }
 
     @Override
@@ -78,5 +79,4 @@ public class ProduktDaoImpl extends Backupable implements ProduktDao {
         BeanPropertyRowMapper<Produkt> rowMapper = new BeanPropertyRowMapper<>(Produkt.class);
         return jdbcTemplate.query(sql, rowMapper, dodavatel.getId());
     }
-
 }

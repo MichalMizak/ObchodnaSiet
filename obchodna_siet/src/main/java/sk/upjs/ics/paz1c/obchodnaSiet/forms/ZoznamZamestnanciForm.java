@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ZamestnanecDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Zamestnanec;
-import sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkyComboBoxModel;
+import sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.ZamestnanecTableModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 
@@ -85,7 +85,7 @@ public class ZoznamZamestnanciForm extends javax.swing.JFrame {
         });
 
         prevadzkyComboBox.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        prevadzkyComboBox.setModel(new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkyComboBoxModel());
+        prevadzkyComboBox.setModel(new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel());
         prevadzkyComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 prevadzkyComboBoxMousePressed(evt);
@@ -266,7 +266,7 @@ public class ZoznamZamestnanciForm extends javax.swing.JFrame {
             vsetkyPrevadzkyToggleButtonMousePressed(evt);
             return;
         }
-        zamestnanci = zamestnanecDao.getZamestnanecByPrevadzka((selectedPrevadzka).getId());
+        zamestnanci = zamestnanecDao.getZamestnanciByPrevadzka((selectedPrevadzka).getId());
         getZamestnanecTableModel().refresh(zamestnanci);
     }//GEN-LAST:event_jednaPrevadzkaToggleButtonMousePressed
 
@@ -285,13 +285,13 @@ public class ZoznamZamestnanciForm extends javax.swing.JFrame {
             return;
             // zamestnanci = zamestnanecDao.getZamestnanci();
         } else {
-            zamestnanci = zamestnanecDao.getZamestnanecByPrevadzka((selectedPrevadzka).getId());
+            zamestnanci = zamestnanecDao.getZamestnanciByPrevadzka((selectedPrevadzka).getId());
         }
         getZamestnanecTableModel().refresh(zamestnanci);
     }//GEN-LAST:event_prevadzkyComboBoxActionPerformed
 
-    private PrevadzkyComboBoxModel getPrevadzkyComboBoxModel() {
-        return (PrevadzkyComboBoxModel) prevadzkyComboBox.getModel();
+    private PrevadzkaComboBoxModel getPrevadzkyComboBoxModel() {
+        return (PrevadzkaComboBoxModel) prevadzkyComboBox.getModel();
     }
 
     private Zamestnanec getSelectedZamestnanec() {

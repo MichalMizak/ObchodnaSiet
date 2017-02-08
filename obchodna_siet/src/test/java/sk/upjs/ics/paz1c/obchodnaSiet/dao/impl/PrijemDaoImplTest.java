@@ -27,7 +27,7 @@ public class PrijemDaoImplTest {
      */
     @Test
     public void testPridajPrijem() {
-        int pocetPred = prijemDao.nacitajVsetkyPrijmy().size();
+        int pocetPred = prijemDao.getPrijmy().size();
 
         ProduktNaPredajniDao produktNaPredajniDao = DaoFactory.INSTANCE.getProduktNaPredajniDao();
         produktNaPredajniDao.saveOrEdit(new ProduktNaPredajni(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID, 0, 0));
@@ -37,9 +37,9 @@ public class PrijemDaoImplTest {
                 new Date(System.currentTimeMillis()), produkt.getProduktId(),
                 produkt.getPrevadzkaId(), 0, 0));
 
-        int pocetPo = prijemDao.nacitajVsetkyPrijmy().size();
+        int pocetPo = prijemDao.getPrijmy().size();
 
-        List<Prijem> prijmy = prijemDao.nacitajVsetkyPrijmy();
+        List<Prijem> prijmy = prijemDao.getPrijmy();
         Prijem prijem = prijmy.get(prijmy.size() - 1);
         prijemDao.delete(prijem);
         produktNaPredajniDao.delete(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID);
@@ -60,7 +60,7 @@ public class PrijemDaoImplTest {
                 new Date(System.currentTimeMillis()), produkt.getProduktId(),
                 produkt.getPrevadzkaId(), 0, 0));
 
-        List<Prijem> prijmy = prijemDao.nacitajVsetkyPrijmy();
+        List<Prijem> prijmy = prijemDao.getPrijmy();
         Prijem prijemToDelete = prijmy.get(prijmy.size() - 1);
 
         Prijem prijem = prijemDao.getById(prijemToDelete.getId());
@@ -74,11 +74,11 @@ public class PrijemDaoImplTest {
     }
 
     /**
-     * Test of nacitajVsetkyPrijmy method, of class PrijemDaoImpl.
+     * Test of getPrijmy method, of class PrijemDaoImpl.
      */
     @Test
     public void testNacitajVsetkyPrijmy() {
-        List<Prijem> prijmy = prijemDao.nacitajVsetkyPrijmy();
+        List<Prijem> prijmy = prijemDao.getPrijmy();
         assertTrue(prijmy != null);
     }
 
@@ -105,14 +105,14 @@ public class PrijemDaoImplTest {
                 new Date(System.currentTimeMillis()), produkt.getProduktId(),
                 produkt.getPrevadzkaId(), 0, 0));
 
-        List<Prijem> prijmy = prijemDao.nacitajVsetkyPrijmy();
+        List<Prijem> prijmy = prijemDao.getPrijmy();
         Prijem prijem = prijmy.get(prijmy.size() - 1);
         int pocetPred = prijmy.size();
 
         prijemDao.delete(prijem);
         produktNaPredajniDao.delete(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID);
 
-        int pocetPo = prijemDao.nacitajVsetkyPrijmy().size();
+        int pocetPo = prijemDao.getPrijmy().size();
 
         assertTrue(pocetPred - 1 == pocetPo);
     }

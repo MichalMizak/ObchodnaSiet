@@ -19,5 +19,4 @@ public interface ProduktDao {
     double vycisliZisk(Long id);
 
     public List<Produkt> getByDodavatel(Dodavatel dodavatel);
-
 }

@@ -6,12 +6,12 @@ import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrevadzkaDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
 
-public class PrevadzkyComboBoxModel extends DefaultComboBoxModel<Prevadzka>{
+public class PrevadzkaComboBoxModel extends DefaultComboBoxModel<Prevadzka>{
     
     private PrevadzkaDao dao = DaoFactory.INSTANCE.getPrevadzkaDao();
     private List<Prevadzka> prevadzky = dao.getPrevadzky();
 
-    public PrevadzkyComboBoxModel() {
+    public PrevadzkaComboBoxModel() {
        refresh();
     }
     

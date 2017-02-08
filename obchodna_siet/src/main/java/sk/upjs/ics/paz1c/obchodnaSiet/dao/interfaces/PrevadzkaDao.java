@@ -12,7 +12,4 @@ public interface PrevadzkaDao {
     List<Prevadzka> getPrevadzky();
 
     void delete(Long id);
-
-    double vycisliZisk(Long id);
-
 }

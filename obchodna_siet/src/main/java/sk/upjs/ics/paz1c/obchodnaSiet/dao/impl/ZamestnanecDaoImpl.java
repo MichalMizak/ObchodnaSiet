@@ -45,7 +45,7 @@ public class ZamestnanecDaoImpl implements ZamestnanecDao {
     }
 
     @Override
-    public List<Zamestnanec> getZamestnanecByPrevadzka(Long prevadzka_id) {
+    public List<Zamestnanec> getZamestnanciByPrevadzka(Long prevadzka_id) {
         String sql = "SELECT z.id, z.meno, z.priezvisko, z.prevadzka_id, z.datum_nastupu,"
                 + " z.plat_brutto from zamestnanec z where z.prevadzka_id = ?";
         return jdbcTemplate.query(sql, new ZamestnanecRowMapper(), prevadzka_id);

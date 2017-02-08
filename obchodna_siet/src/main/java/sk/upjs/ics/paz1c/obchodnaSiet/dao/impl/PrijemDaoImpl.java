@@ -46,15 +46,27 @@ public class PrijemDaoImpl extends Backupable implements PrijemDao {
     }
 
     @Override
-    public List<Prijem> nacitajVsetkyPrijmy() {
+    public List<Prijem> getPrijmy() {
         String sql = "SELECT p.id, p.popis, p.datum, p.produkt_id, p.prevadzka_id, p.zlava, p.kusy from " + getTableName().toString() + " p";
         return jdbcTemplate.query(sql, new PrijemRowMapper());
     }
 
+    @Override
+    public List<Prijem> getPrijmyByPrevadzka(Long prevadzkaId) {
+        String sql = "SELECT p.id, p.popis, p.datum, p.produkt_id, p.prevadzka_id,"
+                + " p.zlava, p.kusy from " + getTableName().toString() + " p "
+                + "WHERE p.prevadzka_id = ?";
+        return jdbcTemplate.query(sql, new PrijemRowMapper(), prevadzkaId);
+    }
+
     // TODO
     @Override
-    public void edit(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void edit(Prijem prijem) {
+        String sql = "UPDATE " + getTableName().toString() + " SET popis = ?, "
+                + "datum = ?, produkt_id = ?, prevadzka_id = ?, zlava = ?, kusy = ? "
+                + "WHERE id = ?";
+        jdbcTemplate.update(sql, prijem.getPopis(), prijem.getDatum(),
+                prijem.getProduktId(), prijem.getPrevadzkaId(), prijem.getZlava(), prijem.getKusy(), prijem.getId());
     }
 
     @Override
@@ -81,6 +93,7 @@ public class PrijemDaoImpl extends Backupable implements PrijemDao {
 
         return (produkt.getPredajnaCena() * (1 - (zlava / 100))) * kusy;
 
+     
 //        
 //        ProduktNaPredajniDao produktNaPredajniDao = DaoFactory.INSTANCE.getProduktNaPredajniDao();
 //        ProduktNaPredajni produktNaPredajni = produktNaPredajniDao.getById(prijem.getProduktId(), prijem.getPrevadzkaId());
@@ -91,6 +104,16 @@ public class PrijemDaoImpl extends Backupable implements PrijemDao {
 //        ProduktDao produktDao = DaoFactory.INSTANCE.getProduktDao();
 //        Produkt produkt = produktDao.getById(produktNaPredajni.getProduktId());
 //
+    }
+
+    @Override
+    public double getSuma(Long prevadzkaId) {
+        List<Prijem> prijmy = getPrijmyByPrevadzka(prevadzkaId);
+        double result = 0;
+        for (Prijem prijem : prijmy) {
+            result += getSuma(prijem);
+        }
+        return result; 
     }
 
     private class PrijemRowMapper implements RowMapper<Prijem> {

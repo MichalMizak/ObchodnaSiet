@@ -1,6 +1,9 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.entity;
 
-public class ProduktNaPredajni {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProduktNaPredajni extends Produkt {
 
     private Long produktId;
     private Long prevadzkaId;
@@ -11,18 +14,18 @@ public class ProduktNaPredajni {
     }
 
     public ProduktNaPredajni(Long produktId, Long prevadzkaId, double zlava, int kusy) {
-        this.produktId = produktId;
+        setId(produktId);
         this.prevadzkaId = prevadzkaId;
         this.zlava = zlava;
         this.kusy = kusy;
     }
-
+   
     public final Long getProduktId() {
-        return produktId;
+        return getId();
     }
     
     public final void setProduktId(Long produktId) {
-        this.produktId = produktId;
+        setId(produktId);
     }
 
     public final Long getPrevadzkaId() {

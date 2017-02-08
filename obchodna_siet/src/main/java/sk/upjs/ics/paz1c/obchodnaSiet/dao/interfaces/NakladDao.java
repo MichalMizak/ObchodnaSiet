@@ -14,5 +14,5 @@ public interface NakladDao {
     void upravNaklad(Long id);
 
     void odoberNaklad(Long id);
-
+    
 }

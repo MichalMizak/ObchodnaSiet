@@ -5,6 +5,7 @@ import com.oracle.xmlns.internal.webservices.jaxws_databinding.ObjectFactory;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrevadzkaDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ZamestnanecDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
@@ -24,6 +25,7 @@ public class PrevadzkyTableModel extends AbstractTableModel {
 
     private ZamestnanecDao zamestnanecDao = DaoFactory.INSTANCE.getZamestnanecDao();
     private PrevadzkaDao prevadzkaDao = DaoFactory.INSTANCE.getPrevadzkaDao();
+    private PrijemDao prijemDao = DaoFactory.INSTANCE.getPrijemDao();
 
     public PrevadzkyTableModel(List<Prevadzka> prevadzky) {
         this.prevadzky = prevadzky;
@@ -55,9 +57,9 @@ public class PrevadzkyTableModel extends AbstractTableModel {
             case 1:
                 return prevadzka.getAdresa();
             case 2:
-                return zamestnanecDao.getZamestnanecByPrevadzka(prevadzka.getId()).size();
+                return zamestnanecDao.getZamestnanciByPrevadzka(prevadzka.getId()).size();
             case 3:
-                return prevadzkaDao.vycisliZisk(prevadzka.getId());
+                return prijemDao.getSuma(prevadzka.getId());
             case 4:
                 return prevadzka.getOtvaracieHodiny();
         }

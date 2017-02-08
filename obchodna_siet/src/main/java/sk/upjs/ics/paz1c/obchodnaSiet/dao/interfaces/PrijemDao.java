@@ -9,11 +9,15 @@ public interface PrijemDao {
 
     Prijem getById(Long id);
 
-    List<Prijem> nacitajVsetkyPrijmy();
+    List<Prijem> getPrijmy();
 
-    void edit(Long id);
+    List<Prijem> getPrijmyByPrevadzka(Long prevadzkaId);
+    
+    void edit(Prijem prijem);
 
     void delete(Prijem prijem);
 
     double getSuma(Prijem prijem);
+    
+    double getSuma(Long prevadzkaId);
 }

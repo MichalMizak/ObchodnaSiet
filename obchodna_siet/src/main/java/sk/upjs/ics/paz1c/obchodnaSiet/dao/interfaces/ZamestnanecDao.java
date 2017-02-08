@@ -11,7 +11,7 @@ public interface ZamestnanecDao {
 
     List<Zamestnanec> getZamestnanci();
 
-    List<Zamestnanec> getZamestnanecByPrevadzka(Long prevadzka_id);
+    List<Zamestnanec> getZamestnanciByPrevadzka(Long prevadzka_id);
     
     void upravZamestnanca(Zamestnanec zamestnanec);
 

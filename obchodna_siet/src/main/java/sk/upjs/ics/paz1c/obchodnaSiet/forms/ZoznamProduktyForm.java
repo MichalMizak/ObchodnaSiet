@@ -1,10 +1,14 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.forms;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktNaPredajniDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Produkt;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
+import sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.ProduktListModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.ProduktTableModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
@@ -15,12 +19,21 @@ public class ZoznamProduktyForm extends javax.swing.JFrame {
 
     private List<Produkt> produkty;
     private ProduktDao produktDao = DaoFactory.INSTANCE.getProduktDao();
-    
+
+    private List<ProduktNaPredajni> pnps;
+    private ProduktNaPredajniDao pnpDao = DaoFactory.INSTANCE.getProduktNaPredajniDao();
+
     public ZoznamProduktyForm(List<Produkt> produkty) {
         initComponents();
-        this.setLocationRelativeTo(null);
         this.produkty = produkty;
-        refreshProduktModel();
+        init();
+    }
+    
+     private void init() {
+        setLocationRelativeTo(null);
+         refreshProduktModel();
+        vsetkyPrevadzkyToggleButton.setSelected(true);
+        getPrevadzkyComboBoxModel().sleep();
     }
 
     /**
@@ -41,6 +54,9 @@ public class ZoznamProduktyForm extends javax.swing.JFrame {
         upravitProduktButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         produktTable = new javax.swing.JTable();
+        vsetkyPrevadzkyToggleButton = new javax.swing.JToggleButton();
+        jednaPrevadzkaToggleButton = new javax.swing.JToggleButton();
+        prevadzkyComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -89,8 +105,47 @@ public class ZoznamProduktyForm extends javax.swing.JFrame {
             }
         });
 
-        produktTable.setModel(new ProduktTableModel(produkty));
+        produktTable.setModel(new ProduktTableModel(produkty, null));
         jScrollPane2.setViewportView(produktTable);
+
+        vsetkyPrevadzkyToggleButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        vsetkyPrevadzkyToggleButton.setText("Typy produktov");
+        vsetkyPrevadzkyToggleButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                vsetkyPrevadzkyToggleButtonMousePressed(evt);
+            }
+        });
+        vsetkyPrevadzkyToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vsetkyPrevadzkyToggleButtonActionPerformed(evt);
+            }
+        });
+
+        jednaPrevadzkaToggleButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jednaPrevadzkaToggleButton.setText("Podľa prevádzky");
+        jednaPrevadzkaToggleButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jednaPrevadzkaToggleButtonMousePressed(evt);
+            }
+        });
+
+        prevadzkyComboBox.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        prevadzkyComboBox.setModel(new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel());
+        prevadzkyComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                prevadzkyComboBoxMousePressed(evt);
+            }
+        });
+        prevadzkyComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevadzkyComboBoxActionPerformed(evt);
+            }
+        });
+        prevadzkyComboBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                prevadzkyComboBoxPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,7 +166,13 @@ public class ZoznamProduktyForm extends javax.swing.JFrame {
                                 .addComponent(upravitProduktButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spatButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(pridatProduktNaPredajnuButton, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE))))
+                            .addComponent(pridatProduktNaPredajnuButton, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(vsetkyPrevadzkyToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jednaPrevadzkaToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(prevadzkyComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -119,9 +180,15 @@ public class ZoznamProduktyForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(vsetkyPrevadzkyToggleButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(prevadzkyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jednaPrevadzkaToggleButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pridatProduktButton)
                     .addComponent(pridatProduktNaPredajnuButton))
@@ -155,7 +222,7 @@ public class ZoznamProduktyForm extends javax.swing.JFrame {
         //new OdobratProduktDialogForm(this, true, produkt).setVisible(true);
         produktDao.delete(produkt.getId());
         produkty = produktDao.getProdukty();
-        
+
         refreshProduktModel();
     }//GEN-LAST:event_odobratProduktButtonActionPerformed
 
@@ -174,17 +241,76 @@ public class ZoznamProduktyForm extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_upravitProduktButtonActionPerformed
 
+    private void vsetkyPrevadzkyToggleButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vsetkyPrevadzkyToggleButtonMousePressed
+
+        jednaPrevadzkaToggleButton.setSelected(false);
+        //vsetkyPrevadzkyToggleButton.setSelected(true);
+        getPrevadzkyComboBoxModel().sleep();
+
+        pnps = null;
+        produkty = produktDao.getProdukty();
+        
+        getProduktTableModel().refresh(produkty, pnps);
+    }//GEN-LAST:event_vsetkyPrevadzkyToggleButtonMousePressed
+
+    private void vsetkyPrevadzkyToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vsetkyPrevadzkyToggleButtonActionPerformed
+
+    }//GEN-LAST:event_vsetkyPrevadzkyToggleButtonActionPerformed
+
+    private void jednaPrevadzkaToggleButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jednaPrevadzkaToggleButtonMousePressed
+        vsetkyPrevadzkyToggleButton.setSelected(false);
+        //jednaPrevadzkaToggleButton.set
+        getPrevadzkyComboBoxModel().refresh();
+
+        Prevadzka selectedPrevadzka = (Prevadzka) prevadzkyComboBox.getSelectedItem();
+        if (selectedPrevadzka == null) {
+            vsetkyPrevadzkyToggleButtonMousePressed(evt);
+            return;
+        }
+        produkty = null;
+        pnps = pnpDao.getByPrevadzka(selectedPrevadzka.getId());
+
+        refreshProduktModel();
+    }//GEN-LAST:event_jednaPrevadzkaToggleButtonMousePressed
+
+    private void prevadzkyComboBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_prevadzkyComboBoxMousePressed
+
+    }//GEN-LAST:event_prevadzkyComboBoxMousePressed
+
+    private void prevadzkyComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevadzkyComboBoxActionPerformed
+        Prevadzka selectedPrevadzka = (Prevadzka) prevadzkyComboBox.getSelectedItem();
+        if (selectedPrevadzka == null) {
+            if (produkty == null) {
+                pnps = null;
+                produkty = produktDao.getProdukty();
+            }
+            // zamestnanci = zamestnanecDao.getZamestnanci();
+        } else {
+            produkty = null;
+            pnps = pnpDao.getByPrevadzka(selectedPrevadzka.getId());
+        }
+        refreshProduktModel();
+
+    }//GEN-LAST:event_prevadzkyComboBoxActionPerformed
+
+    private void prevadzkyComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_prevadzkyComboBoxPropertyChange
+
+    }//GEN-LAST:event_prevadzkyComboBoxPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JToggleButton jednaPrevadzkaToggleButton;
     private javax.swing.ButtonGroup moznostiZobrazeniaButtonGroup;
     private javax.swing.JButton odobratProduktButton;
+    private javax.swing.JComboBox<Prevadzka> prevadzkyComboBox;
     private javax.swing.JButton pridatProduktButton;
     private javax.swing.JButton pridatProduktNaPredajnuButton;
     private javax.swing.JTable produktTable;
     private javax.swing.JButton spatButton;
     private javax.swing.JButton upravitProduktButton;
+    private javax.swing.JToggleButton vsetkyPrevadzkyToggleButton;
     // End of variables declaration//GEN-END:variables
 
     private Produkt getSelectedProdukt() {
@@ -198,11 +324,14 @@ public class ZoznamProduktyForm extends javax.swing.JFrame {
 
     private void refreshProduktModel() {
         ProduktTableModel model = getProduktTableModel();
-        model.refresh(produkty);
+        model.refresh(produkty, pnps);
     }
-    
 
     private ProduktTableModel getProduktTableModel() {
         return (ProduktTableModel) produktTable.getModel();
+    }
+
+    private PrevadzkaComboBoxModel getPrevadzkyComboBoxModel() {
+        return (PrevadzkaComboBoxModel) prevadzkyComboBox.getModel();
     }
 }

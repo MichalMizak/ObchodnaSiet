@@ -50,6 +50,7 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
         upravitPrevadzkuButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         prevadzkyTable = new javax.swing.JTable();
+        nakladButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -59,7 +60,7 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
         jLabel1.setText("Prevádzky");
 
         detailPrevadzkyButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        detailPrevadzkyButton.setText("Príjem a náklad");
+        detailPrevadzkyButton.setText("Príjmy");
         detailPrevadzkyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 detailPrevadzkyButtonActionPerformed(evt);
@@ -101,6 +102,9 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
         prevadzkyTable.setModel(new PrevadzkyTableModel(prevadzky));
         jScrollPane2.setViewportView(prevadzkyTable);
 
+        nakladButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        nakladButton.setText("Náklady");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,19 +113,21 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
                         .addContainerGap())
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pridatPrevadzkuButton, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                             .addComponent(detailPrevadzkyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(odobratPrevadzkuButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nakladButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(upravitPrevadzkuButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pridatPrevadzkuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spatButton))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(odobratPrevadzkuButton, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(spatButton)
+                        .addGap(1, 1, 1))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,15 +137,18 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(detailPrevadzkyButton)
-                    .addComponent(pridatPrevadzkuButton))
+                .addComponent(pridatPrevadzkuButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(spatButton)
-                    .addComponent(odobratPrevadzkuButton)
-                    .addComponent(upravitPrevadzkuButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(detailPrevadzkyButton)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(upravitPrevadzkuButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(odobratPrevadzkuButton)
+                            .addComponent(nakladButton)
+                            .addComponent(spatButton))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -152,11 +161,12 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
 
     private void detailPrevadzkyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailPrevadzkyButtonActionPerformed
         Prevadzka prevadzka = getSelectedPrevadzka();
-        if (prevadzka == null) {
-            JOptionPane.showMessageDialog(this, OZNACTE_PREVADZKU_MESSAGE);
-            return;
-        }
-        new ProduktNakladPrevadzkyForm(prevadzka.getId()).setVisible(true);
+//        if (prevadzka == null) {
+//            JOptionPane.showMessageDialog(this, OZNACTE_PREVADZKU_MESSAGE);
+//            return;
+//        }
+        // new ProduktNakladPrevadzkyForm(prevadzka.getId()).setVisible(true);
+        new ZoznamPrijemForm().setVisible(true);
         dispose();
     }//GEN-LAST:event_detailPrevadzkyButtonActionPerformed
 
@@ -206,6 +216,7 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
     private javax.swing.JButton detailPrevadzkyButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton nakladButton;
     private javax.swing.JButton odobratPrevadzkuButton;
     private javax.swing.JTable prevadzkyTable;
     private javax.swing.JButton pridatPrevadzkuButton;

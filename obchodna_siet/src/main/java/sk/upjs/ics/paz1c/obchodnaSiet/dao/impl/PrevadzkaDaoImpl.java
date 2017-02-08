@@ -61,43 +61,44 @@ public class PrevadzkaDaoImpl extends Backupable implements PrevadzkaDao {
 
     @Override
     public void delete(Long id) {
-        String sql = "DELETE FROM " + getTableName().toString() + " WHERE id=" + id;
-        jdbcTemplate.execute(sql);
-        
-         // backup
+        // backup
         PrevadzkaHistoryDao produktHistoryDao = DaoFactory.INSTANCE.getPrevadzkaHistoryDao();
         produktHistoryDao.saveOrEdit(getById(id));
+
+        String sql = "DELETE FROM " + getTableName().toString() + " WHERE id=" + id;
+        jdbcTemplate.execute(sql);
     }
 
-    /**
-     * unfunctional for history
-     * @param id
-     * @return 
-     */
-    @Override
-    public double vycisliZisk(Long id) {
-        String sql1 = "SELECT SUM(suma) as suma FROM naklad WHERE prevadzka_id=?";
-
-        Double naklad = jdbcTemplate.queryForObject(sql1, (ResultSet rs, int i) -> {
-            Double result = rs.getDouble("suma");
-            return result;
-        }, id);
-
-        String sql2 = "SELECT SUM(produkt_id) as produkt_id FROM prijem WHERE prevadzka_id=?";
-        Double prijem = jdbcTemplate.queryForObject(sql2, (ResultSet rs, int i) -> {
-            Double result = rs.getDouble("produkt_id");
-            return result;
-        }, id);
-        // TODO should throw Exception instead of returning Double.MIN_VALUE
-        if (naklad == null && prijem == null) {
-            return Double.MIN_VALUE;
-        }
-        if (naklad == null) {
-            return prijem;
-        }
-        if (prijem == null) {
-            return -naklad;
-        }
-        return prijem - naklad;
-    }
+//    /**
+//     * unfunctional for history
+//     *
+//     * @param id
+//     * @return
+//     */
+//    @Override
+//    public double vycisliZisk(Long id) {
+//        String sql1 = "SELECT SUM(suma) as suma FROM naklad WHERE prevadzka_id=?";
+//
+//        Double naklad = jdbcTemplate.queryForObject(sql1, (ResultSet rs, int i) -> {
+//            Double result = rs.getDouble("suma");
+//            return result;
+//        }, id);
+//
+//        String sql2 = "SELECT SUM(produkt_id) as produkt_id FROM prijem WHERE prevadzka_id=?";
+//        Double prijem = jdbcTemplate.queryForObject(sql2, (ResultSet rs, int i) -> {
+//            Double result = rs.getDouble("produkt_id");
+//            return result;
+//        }, id);
+//        // TODO should throw Exception instead of returning Double.MIN_VALUE
+//        if (naklad == null && prijem == null) {
+//            return Double.MIN_VALUE;
+//        }
+//        if (naklad == null) {
+//            return prijem;
+//        }
+//        if (prijem == null) {
+//            return -naklad;
+//        }
+//        return prijem - naklad;
+//    }
 }

@@ -122,7 +122,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkyComboBoxModel()" type="code"/>
+          <Connection code="new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel()" type="code"/>
         </Property>
       </Properties>
       <AuxValues>

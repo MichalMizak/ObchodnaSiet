@@ -71,7 +71,7 @@ public class PridatProduktNaPrevadzkuForm extends javax.swing.JFrame {
         jLabel3.setText("Názov prevádzky:");
 
         nazovPrevadzkyComboBox.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        nazovPrevadzkyComboBox.setModel(new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkyComboBoxModel());
+        nazovPrevadzkyComboBox.setModel(new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel());
         nazovPrevadzkyComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nazovPrevadzkyComboBoxActionPerformed(evt);

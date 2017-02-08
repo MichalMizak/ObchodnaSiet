@@ -65,7 +65,7 @@ public class PridatZamestnancaNaPrevadzkuForm extends javax.swing.JFrame {
         jLabel3.setText("Názov prevádzky:");
 
         prevadzkyComboBox.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        prevadzkyComboBox.setModel(new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkyComboBoxModel());
+        prevadzkyComboBox.setModel(new sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel());
 
         pridatButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         pridatButton.setText("Pridať");
