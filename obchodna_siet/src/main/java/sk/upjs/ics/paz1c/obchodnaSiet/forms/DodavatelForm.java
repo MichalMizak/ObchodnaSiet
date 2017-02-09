@@ -3,6 +3,7 @@ package sk.upjs.ics.paz1c.obchodnaSiet.forms;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.StatnyPoplatokComboBoxModel;
 import java.util.List;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.DodavatelDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.StatnyPoplatokDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Dodavatel;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.StatnyPoplatok;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
@@ -51,6 +52,11 @@ public class DodavatelForm extends javax.swing.JFrame {
         nazovTextField.setText(dodavatel.getNazov());
         sidloTextField.setText(dodavatel.getSidlo());
         kontaktTextField.setText(dodavatel.getKontakt());
+
+        StatnyPoplatokDao statnyPoplatokDao = DaoFactory.INSTANCE.getStatnyPoplatokDao();
+        getStatnyPoplatokComboBoxModel().setSelectedItem(statnyPoplatokDao.getById(dodavatel.getStatnyPoplatokId()));
+
+        dodavatelLabel.setText("Upraviť dodávateľa");
         pridatButton.setText("Upraviť");
     }
 
@@ -63,7 +69,7 @@ public class DodavatelForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        dodavatelLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         nazovTextField = new javax.swing.JTextField();
         sidloTextField = new javax.swing.JTextField();
@@ -74,12 +80,14 @@ public class DodavatelForm extends javax.swing.JFrame {
         spatButton = new javax.swing.JButton();
         StatnyPoplatokComboBox = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        addStatnyPoplatokButton = new javax.swing.JButton();
+        editStatnyPoplatokButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Pridať dodávateľa");
+        dodavatelLabel.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        dodavatelLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        dodavatelLabel.setText("Pridať dodávateľa");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setText("Názov dodávateľa:");
@@ -117,33 +125,52 @@ public class DodavatelForm extends javax.swing.JFrame {
             }
         });
 
+        StatnyPoplatokComboBox.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         StatnyPoplatokComboBox.setModel(new StatnyPoplatokComboBoxModel());
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel5.setText("Štát:");
+
+        addStatnyPoplatokButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        addStatnyPoplatokButton.setText("Nový štát");
+        addStatnyPoplatokButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStatnyPoplatokButtonActionPerformed(evt);
+            }
+        });
+
+        editStatnyPoplatokButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        editStatnyPoplatokButton.setText("Upraviť štát");
+        editStatnyPoplatokButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editStatnyPoplatokButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addGap(134, 134, 134)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(StatnyPoplatokComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(pridatButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(spatButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                        .addComponent(StatnyPoplatokComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(addStatnyPoplatokButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pridatButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(editStatnyPoplatokButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(spatButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(10, 10, 10)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                        .addComponent(dodavatelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2)
@@ -159,19 +186,23 @@ public class DodavatelForm extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(215, Short.MAX_VALUE)
+                .addContainerGap(214, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(StatnyPoplatokComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(StatnyPoplatokComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(30, 30, 30)
+                    .addComponent(addStatnyPoplatokButton)
+                    .addComponent(editStatnyPoplatokButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pridatButton)
-                    .addComponent(spatButton))
-                .addContainerGap())
+                    .addComponent(spatButton)
+                    .addComponent(pridatButton))
+                .addGap(34, 34, 34))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(27, 27, 27)
-                    .addComponent(jLabel1)
+                    .addComponent(dodavatelLabel)
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
@@ -184,7 +215,7 @@ public class DodavatelForm extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(kontaktTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4))
-                    .addContainerGap(128, Short.MAX_VALUE)))
+                    .addContainerGap(173, Short.MAX_VALUE)))
         );
 
         pack();
@@ -205,8 +236,8 @@ public class DodavatelForm extends javax.swing.JFrame {
         dodavatel.setNazov(nazov);
         dodavatel.setSidlo(sidlo);
         dodavatel.setKontakt(kontakt);
-        dodavatel.setStatnyPoplatokId(statnyPoplatokId);    
-        
+        dodavatel.setStatnyPoplatokId(statnyPoplatokId);
+
         DodavatelDao dodavatelDao = DaoFactory.INSTANCE.getDodavatelDao();
 
         if (editMode) {
@@ -233,10 +264,22 @@ public class DodavatelForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_spatButtonActionPerformed
 
+    private void addStatnyPoplatokButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStatnyPoplatokButtonActionPerformed
+        new StatnyPoplatokForm().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_addStatnyPoplatokButtonActionPerformed
+
+    private void editStatnyPoplatokButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStatnyPoplatokButtonActionPerformed
+        new StatnyPoplatokForm(getSelectedStatnyPoplatok()).setVisible(true);
+        dispose();
+     }//GEN-LAST:event_editStatnyPoplatokButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<StatnyPoplatok> StatnyPoplatokComboBox;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton addStatnyPoplatokButton;
+    private javax.swing.JLabel dodavatelLabel;
+    private javax.swing.JButton editStatnyPoplatokButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -197,9 +197,7 @@ public class HlavneOknoForm extends javax.swing.JFrame {
 
     private void dodavateliaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodavateliaButtonActionPerformed
         DodavatelDao dodavatelDao = DaoFactory.INSTANCE.getDodavatelDao();
-        List<Dodavatel> wat = dodavatelDao.getDodavatelia();
-        System.out.println(wat.size() + " @HlavneOkno");
-        new ZoznamDodavateliaForm(wat).setVisible(true);
+        new ZoznamDodavateliaForm(dodavatelDao.getDodavatelia()).setVisible(true);
         dispose();
     }//GEN-LAST:event_dodavateliaButtonActionPerformed
 

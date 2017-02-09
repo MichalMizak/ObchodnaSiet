@@ -17,7 +17,8 @@ import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
  */
 public class DodavatelTableModel extends AbstractTableModel {
 
-    private static final String[] COLUMN_TITLES = {"Názov", "Sídlo", "Kontakt", "Podiel na ponuke", "Štát", "% Poplatok"};
+    private static final String[] COLUMN_TITLES = {"Názov", "Sídlo", "Kontakt", 
+        "Podiel na ponuke", "Podiel na obchodnej sieti", "Štát", "% Poplatok"};
 
     private static final int COLUMN_COUNT = COLUMN_TITLES.length;
 
@@ -60,10 +61,13 @@ public class DodavatelTableModel extends AbstractTableModel {
                 DodavatelDao dodavatelDao = DaoFactory.INSTANCE.getDodavatelDao();
                 return dodavatelDao.podielNaPonukeTrhu(dodavatel);
             case 4:
+                DodavatelDao dodavatelDao1 = DaoFactory.INSTANCE.getDodavatelDao();
+                return dodavatelDao1.podielNaObchodnejSieti(dodavatel);
+            case 5:
                 statnyPoplatokDao = DaoFactory.INSTANCE.getStatnyPoplatokDao();
                 StatnyPoplatok sp = statnyPoplatokDao.getById(dodavatel.getStatnyPoplatokId());
                 return sp == null ? null : sp.getKrajina();
-            case 5:
+            case 6:
                 statnyPoplatokDao = DaoFactory.INSTANCE.getStatnyPoplatokDao();
                 StatnyPoplatok s = statnyPoplatokDao.getById(dodavatel.getStatnyPoplatokId());
                 return s == null ? null : s.getPercent();

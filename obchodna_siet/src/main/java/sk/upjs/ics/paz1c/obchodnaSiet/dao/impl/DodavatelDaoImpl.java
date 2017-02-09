@@ -8,10 +8,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.DodavatelDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktNaPredajniDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.TransactionNumberDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Dodavatel;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Produkt;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.DatabaseSequence;
 
@@ -81,6 +83,25 @@ public class DodavatelDaoImpl implements DodavatelDao {
         List<Produkt> dodavatelia = produktDao.getByDodavatel(dodavatel);
         List<Produkt> vsetky = produktDao.getProdukty();
         return 100 * (dodavatelia.size() * 1.0) / vsetky.size();
+    }
+
+    @Override
+    public double podielNaObchodnejSieti(Dodavatel dodavatel) {
+        ProduktNaPredajniDao produktDao = DaoFactory.INSTANCE.getProduktNaPredajniDao();
+        List<ProduktNaPredajni> dodavatelia = produktDao.getByDodavatel(dodavatel);
+        List<ProduktNaPredajni> vsetky = produktDao.getProduktyNaPredajni();
+
+        int allCount = 0;
+
+        for (ProduktNaPredajni produktNaPredajni : vsetky) {
+            allCount += produktNaPredajni.getKusy();
+        }
+        int dodavatelCount = 0;
+
+        for (ProduktNaPredajni produktNaPredajni : dodavatelia) {
+            dodavatelCount += produktNaPredajni.getKusy();
+        }
+        return 100 * (dodavatelCount * 1.0) / allCount;
     }
 
     private class DodavatelRowMapper implements RowMapper<Dodavatel> {

@@ -18,4 +18,6 @@ public interface DodavatelDao {
     void delete(Dodavatel dodavatel);
     
     double podielNaPonukeTrhu(Dodavatel dodavatel);
+    
+     public double podielNaObchodnejSieti(Dodavatel dodavatel);
 }

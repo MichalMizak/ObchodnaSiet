@@ -1,11 +1,15 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.dao.impl;
 
+import java.util.ArrayList;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktNaPredajniDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.Dodavatel;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.Produkt;
+import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 
 public class ProduktNaPredajniDaoImpl implements ProduktNaPredajniDao {
 
@@ -60,8 +64,28 @@ public class ProduktNaPredajniDaoImpl implements ProduktNaPredajniDao {
     }
 
     @Override
+    public List<ProduktNaPredajni> getByProdukt(Long produktId) {
+        String sql = "SELECT * FROM produkt_na_predajni WHERE produkt_id=?";
+        BeanPropertyRowMapper<ProduktNaPredajni> rowMapper = new BeanPropertyRowMapper<>(ProduktNaPredajni.class);
+        List<ProduktNaPredajni> result = jdbcTemplate.query(sql, rowMapper, produktId);
+        return result;
+    }
+    
+    @Override
     public void delete(Long produktId, Long prevadzkaId) {
         String sql = "DELETE FROM produkt_na_predajni WHERE produkt_id=" + produktId + " AND prevadzka_id=" + prevadzkaId;
         jdbcTemplate.execute(sql);
+    }
+
+    @Override
+    public List<ProduktNaPredajni> getByDodavatel(Dodavatel dodavatel) {
+        ProduktDao produktDao = DaoFactory.INSTANCE.getProduktDao();
+        List<Produkt> list = produktDao.getByDodavatel(dodavatel);
+        List<ProduktNaPredajni> result = new ArrayList<>();
+        
+        for (Produkt produkt : list) {
+            result.addAll(getByProdukt(produkt.getId()));
+        }
+        return result;
     }
 }

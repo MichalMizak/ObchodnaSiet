@@ -74,6 +74,10 @@ public class ProduktTableModel extends AbstractTableModel {
         } else {
             produkt = produkty.get(rowIndex);
         }
+        
+        if (produkt == null) {
+            return null;
+        }
         switch (columnIndex) {
             case 0:
                 return produkt.getNazov();
