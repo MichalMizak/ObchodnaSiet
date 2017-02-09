@@ -2,29 +2,31 @@ package sk.upjs.ics.paz1c.obchodnaSiet.forms;
 
 import java.util.List;
 import javax.swing.JOptionPane;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladNaProduktyDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.NakladNaProdukty;
+import sk.upjs.ics.paz1c.obchodnaSiet.model.NakladNaProduktyTableModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.PrijemTableModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.FrameMode;
+
 /**
  *
  * @author Mikey
  */
-public class ZoznamPrijemForm extends javax.swing.JFrame {
+public class ZoznamNakladNaProduktyForm extends javax.swing.JFrame {
 
-    private static final String OZNACTE_PRIJEM_MESSAGE = "Označte príjem";
+   private static final String OZNACTE_NAKLAD_MESSAGE = "Označte náklad";
 
-    private List<PrijemZProdukty> prijmy;
-    private PrijemDao prijemDao = DaoFactory.INSTANCE.getPrijemDao();
+    private List<NakladNaProdukty> naklady;
+    private NakladNaProduktyDao prijemDao = DaoFactory.INSTANCE.getNakladNaProduktyDao();
         
-    public ZoznamPrijemForm() {
+    public ZoznamNakladNaProduktyForm() {
         setUndecorated(true);
         initComponents();
-        this.prijmy = prijemDao.getPrijmy();
-
+        this.naklady = prijemDao.getPrijmy();
         init();
     }
 
@@ -59,7 +61,7 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Príjmy");
+        jLabel1.setText("Náklady");
 
         vsetkyPrevadzkyToggleButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         vsetkyPrevadzkyToggleButton.setText("Všetky prevádzky");
@@ -100,11 +102,11 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
             }
         });
 
-        prijemTable.setModel(new PrijemTableModel(prijmy));
+        prijemTable.setModel(new NakladNaProduktyTableModel(naklady));
         jScrollPane2.setViewportView(prijemTable);
 
         pridatZamestnancaButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        pridatZamestnancaButton.setText("Pridať príjem");
+        pridatZamestnancaButton.setText("Pridať náklad");
         pridatZamestnancaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pridatZamestnancaButtonActionPerformed(evt);
@@ -112,7 +114,7 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
         });
 
         odobratZamestnancaButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        odobratZamestnancaButton.setText("Odobrať príjem");
+        odobratZamestnancaButton.setText("Odobrať náklad");
         odobratZamestnancaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 odobratZamestnancaButtonActionPerformed(evt);
@@ -120,7 +122,7 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
         });
 
         upravitZamestnancaButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        upravitZamestnancaButton.setText("Upraviť príjem");
+        upravitZamestnancaButton.setText("Upraviť náklad");
         upravitZamestnancaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 upravitZamestnancaButtonActionPerformed(evt);
@@ -142,18 +144,18 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(vsetkyPrevadzkyToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jednaPrevadzkaToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(prevadzkyComboBox, 0, 422, Short.MAX_VALUE))
+                        .addComponent(prevadzkyComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pridatZamestnancaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(odobratZamestnancaButton, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
+                            .addComponent(odobratZamestnancaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(upravitZamestnancaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -192,8 +194,8 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
         //vsetkyPrevadzkyToggleButton.setSelected(true);
         getPrevadzkyComboBoxModel().sleep();
 
-        prijmy = prijemDao.getPrijmy();
-        getPrijemTableModel().refresh(prijmy);
+        naklady = prijemDao.getPrijmy();
+        getPrijemTableModel().refresh(naklady);
     }//GEN-LAST:event_vsetkyPrevadzkyToggleButtonMousePressed
 
     private void vsetkyPrevadzkyToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vsetkyPrevadzkyToggleButtonActionPerformed
@@ -210,8 +212,8 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
             vsetkyPrevadzkyToggleButtonMousePressed(evt);
             return;
         }
-        prijmy = prijemDao.getPrijmyByPrevadzka((selectedPrevadzka).getId());
-        getPrijemTableModel().refresh(prijmy);
+        naklady = prijemDao.getPrijmyByPrevadzka((selectedPrevadzka).getId());
+        getPrijemTableModel().refresh(naklady);
     }//GEN-LAST:event_jednaPrevadzkaToggleButtonMousePressed
 
     private void prevadzkyComboBoxMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_prevadzkyComboBoxMousePressed
@@ -224,9 +226,9 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
             return;
             // zamestnanci = zamestnanecDao.getZamestnanci();
         } else {
-            prijmy = prijemDao.getPrijmyByPrevadzka((selectedPrevadzka).getId());
+            naklady = prijemDao.getPrijmyByPrevadzka((selectedPrevadzka).getId());
         }
-        getPrijemTableModel().refresh(prijmy);
+        getPrijemTableModel().refresh(naklady);
     }//GEN-LAST:event_prevadzkyComboBoxActionPerformed
 
     private void prevadzkyComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_prevadzkyComboBoxPropertyChange
@@ -234,14 +236,14 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
     }//GEN-LAST:event_prevadzkyComboBoxPropertyChange
 
     private void pridatZamestnancaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pridatZamestnancaButtonActionPerformed
-        new PrijemNakladNaProduktyForm(prijmy, FrameMode.Prijem).setVisible(true);
+        new PrijemNakladNaProduktyForm(naklady, FrameMode.Naklad).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_pridatZamestnancaButtonActionPerformed
 
     private void odobratZamestnancaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odobratZamestnancaButtonActionPerformed
-        PrijemZProdukty prijem = getSelectedPrijem();
+        NakladNaProdukty prijem = getSelectedPrijem();
         if (prijem == null) {
-            JOptionPane.showMessageDialog(this, OZNACTE_PRIJEM_MESSAGE);
+            JOptionPane.showMessageDialog(this, OZNACTE_NAKLAD_MESSAGE);
             return;
         }
         prijemDao.delete(prijem);
@@ -250,12 +252,12 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
     }//GEN-LAST:event_odobratZamestnancaButtonActionPerformed
 
     private void upravitZamestnancaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upravitZamestnancaButtonActionPerformed
-        PrijemZProdukty prijem = getSelectedPrijem();
+        NakladNaProdukty prijem = getSelectedPrijem();
         if (prijem == null) {
-            JOptionPane.showMessageDialog(this, OZNACTE_PRIJEM_MESSAGE);
+            JOptionPane.showMessageDialog(this, OZNACTE_NAKLAD_MESSAGE);
             return;
         }
-        new PrijemNakladNaProduktyForm(prijmy, prijem, FrameMode.Prijem).setVisible(true);
+        new PrijemNakladNaProduktyForm(naklady, prijem, FrameMode.Naklad).setVisible(true);
         dispose();
     }//GEN-LAST:event_upravitZamestnancaButtonActionPerformed
 
@@ -264,15 +266,16 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_spatButtonActionPerformed
 
+
       private PrevadzkaComboBoxModel getPrevadzkyComboBoxModel() {
         return (PrevadzkaComboBoxModel) prevadzkyComboBox.getModel();
     }
 
-      private PrijemTableModel getPrijemTableModel() {
-        return (PrijemTableModel) prijemTable.getModel();
+      private NakladNaProduktyTableModel getPrijemTableModel() {
+        return (NakladNaProduktyTableModel) prijemTable.getModel();
     }
       
-       private PrijemZProdukty getSelectedPrijem() {
+       private NakladNaProdukty getSelectedPrijem() {
         int selectedRow = prijemTable.getSelectedRow();
         if (selectedRow == -1) {
             return null;
@@ -282,13 +285,13 @@ public class ZoznamPrijemForm extends javax.swing.JFrame {
     }
 
     private void refreshZamestnanecTableModel() {
-        PrijemTableModel model = getPrijemTableModel();
-        model.refresh(prijmy);
+        NakladNaProduktyTableModel model = getPrijemTableModel();
+        model.refresh(naklady);
     }
 
     private void refreshZamestnanecListModel() {
-        PrijemTableModel model = getPrijemTableModel();
-        model.refresh(prijmy);
+        NakladNaProduktyTableModel model = getPrijemTableModel();
+        model.refresh(naklady);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

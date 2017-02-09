@@ -1,7 +1,6 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.dao.impl;
 
-import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladDao;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Naklad;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.MesacnyNaklad;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -10,17 +9,18 @@ import org.springframework.jdbc.core.RowMapper;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.TransactionNumberDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.DatabaseSequence;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.MesacnyNakladDao;
 
-public class NakladDaoImpl implements NakladDao {
+public class MesacnyNakladDaoImpl implements MesacnyNakladDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public NakladDaoImpl(JdbcTemplate jdbcTemplate) {
+    public MesacnyNakladDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public void pridajNaklad(Naklad naklad) {
+    public void pridajNaklad(MesacnyNaklad naklad) {
         String sql = "INSERT INTO naklad (id, prevadzka_id, popis, datum, suma) VALUES (?,?,?,?,?)";
        
         TransactionNumberDao transactionNumberDao = DaoFactory.INSTANCE.getTransactionNumberDao();
@@ -32,13 +32,13 @@ public class NakladDaoImpl implements NakladDao {
     }
 
     @Override
-    public Naklad nacitajNaklad(Long id) {
+    public MesacnyNaklad nacitajNaklad(Long id) {
         String sql = "SELECT n.id, n.prevadzka_id, n.popis, n.datum, n.suma from naklad n WHERE n.id=" + id;
         return jdbcTemplate.queryForObject(sql, new NakladRowMapper());
     }
 
     @Override
-    public List<Naklad> nacitajVsetkyNaklady() {
+    public List<MesacnyNaklad> nacitajVsetkyNaklady() {
         String sql = "SELECT n.id, n.prevadzka_id, n.popis, n.datum, n.suma from naklad n";
         return jdbcTemplate.query(sql, new NakladRowMapper());
     }
@@ -55,11 +55,11 @@ public class NakladDaoImpl implements NakladDao {
         jdbcTemplate.execute(sql);
     }
 
-    private class NakladRowMapper implements RowMapper<Naklad> {
+    private class NakladRowMapper implements RowMapper<MesacnyNaklad> {
 
         @Override
-        public Naklad mapRow(ResultSet rs, int i) throws SQLException {
-            Naklad naklad = new Naklad();
+        public MesacnyNaklad mapRow(ResultSet rs, int i) throws SQLException {
+            MesacnyNaklad naklad = new MesacnyNaklad();
             naklad.setId(rs.getLong("id"));
             naklad.setPrevadzkaId(rs.getLong("prevadzka_id"));
             naklad.setPopis(rs.getString("popis"));

@@ -1,9 +1,13 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 
-public class ProduktNaPredajni extends Produkt {
+/**
+ * Inheritance almost not used, options are open
+ * @author Mikey 
+ */
+public class ProduktNaPredajni {
 
     private Long produktId;
     private Long prevadzkaId;
@@ -14,18 +18,18 @@ public class ProduktNaPredajni extends Produkt {
     }
 
     public ProduktNaPredajni(Long produktId, Long prevadzkaId, double zlava, int kusy) {
-        setId(produktId);
+        this.produktId = produktId;
         this.prevadzkaId = prevadzkaId;
         this.zlava = zlava;
         this.kusy = kusy;
     }
    
     public final Long getProduktId() {
-        return getId();
+        return produktId;
     }
     
     public final void setProduktId(Long produktId) {
-        setId(produktId);
+        this.produktId = produktId;
     }
 
     public final Long getPrevadzkaId() {
@@ -54,7 +58,11 @@ public class ProduktNaPredajni extends Produkt {
 
     @Override
     public String toString() {
-        return "id produktu: " + produktId + ", id predajne: " + prevadzkaId + ", zľava: " + zlava + "počet kusov: " + kusy;
+        // my f***ing god no sorry for this
+        ProduktDao produktDao = DaoFactory.INSTANCE.getProduktDao();
+        Produkt produkt = produktDao.getById(getProduktId());
+        
+        return produkt.toString() + ", Počet kusov: " + kusy;
     }
 
 }

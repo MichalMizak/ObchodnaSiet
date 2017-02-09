@@ -16,7 +16,6 @@ public enum DaoFactory {
 
     INSTANCE;
 
-    private NakladDao nakladDao;
     private NastaveniaDao nastaveniaDao;
     private PrevadzkaDao prevadzkaDao;
     private PrijemDao prijemDao;
@@ -24,11 +23,15 @@ public enum DaoFactory {
     private ProduktNaPredajniDao produktNaPredajniDao;
     private ZamestnanecDao zamestnanecDao;
 
+    private MesacnyNakladDao mesacnyNakladDao;
+    private NakladNaProduktyDao nakladNaProduktyDao;
+    private StatnyPoplatokDao statnyPoplatokDao;
+    
     private DodavatelDao dodavatelDao;
     private TransactionNumberDao transactionNumberDao;
     private ProduktHistoryDao produktHistoryDao;
     private PrevadzkaHistoryDao prevadzkaHistoryDao;
-    
+
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplate getJdbcTemplate() {
@@ -49,11 +52,18 @@ public enum DaoFactory {
         return jdbcTemplate;
     }
 
-    public NakladDao getNakladDao() {
-        if (nakladDao == null) {
-            nakladDao = new NakladDaoImpl(getJdbcTemplate());
+    public MesacnyNakladDao getMesacnyNakladDao() {
+        if (mesacnyNakladDao == null) {
+            mesacnyNakladDao = new MesacnyNakladDaoImpl(getJdbcTemplate());
         }
-        return nakladDao;
+        return mesacnyNakladDao;
+    }
+
+    public NakladNaProduktyDao getNakladNaProduktyDao() {
+        if (nakladNaProduktyDao == null) {
+            nakladNaProduktyDao = new NakladNaProduktyDaoImpl(getJdbcTemplate());
+        }
+        return nakladNaProduktyDao;
     }
 
     public NastaveniaDao getNastaveniaDao() {
@@ -124,6 +134,13 @@ public enum DaoFactory {
             prevadzkaHistoryDao = new PrevadzkaHistoryDaoImpl(getJdbcTemplate());
         }
         return prevadzkaHistoryDao;
+    }
+
+    public StatnyPoplatokDao getStatnyPoplatokDao() {
+        if (statnyPoplatokDao == null) {
+            statnyPoplatokDao = new StatnyPoplatokDaoImpl(getJdbcTemplate());
+        }
+        return statnyPoplatokDao;
     }
 
 }

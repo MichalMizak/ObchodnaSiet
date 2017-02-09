@@ -70,6 +70,7 @@ public class PrevadzkaForm extends javax.swing.JFrame {
         jScrollPane1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         adresaTextArea.setColumns(20);
+        adresaTextArea.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         adresaTextArea.setLineWrap(true);
         adresaTextArea.setRows(5);
         jScrollPane1.setViewportView(adresaTextArea);
@@ -80,6 +81,7 @@ public class PrevadzkaForm extends javax.swing.JFrame {
         jScrollPane2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         otvaracieHodinyTextArea.setColumns(20);
+        otvaracieHodinyTextArea.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         otvaracieHodinyTextArea.setLineWrap(true);
         otvaracieHodinyTextArea.setRows(5);
         jScrollPane2.setViewportView(otvaracieHodinyTextArea);

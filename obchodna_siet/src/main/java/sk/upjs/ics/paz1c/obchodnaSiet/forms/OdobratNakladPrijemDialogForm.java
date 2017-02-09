@@ -6,11 +6,11 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.forms;
 
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
-import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Naklad;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prijem;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.MesacnyNaklad;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.FrameMode;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.MesacnyNakladDao;
 
 /**
  *
@@ -23,7 +23,7 @@ public class OdobratNakladPrijemDialogForm extends javax.swing.JDialog {
      */
     private FrameMode mode;
     private Long id;
-    private NakladDao daoN;
+    private MesacnyNakladDao daoN;
     private PrijemDao daoP;
 
     public OdobratNakladPrijemDialogForm(java.awt.Frame parent, boolean modal) {
@@ -39,14 +39,14 @@ public class OdobratNakladPrijemDialogForm extends javax.swing.JDialog {
         this.mode = mode;
         this.id = id;
         if (mode == FrameMode.Naklad) {
-            daoN = DaoFactory.INSTANCE.getNakladDao();
-            Naklad naklad = daoN.nacitajNaklad(id);
+            daoN = DaoFactory.INSTANCE.getMesacnyNakladDao();
+            MesacnyNaklad naklad = daoN.nacitajNaklad(id);
             popisLabel.setText(naklad.getPopis());
             sumaLabel.setText(String.valueOf(naklad.getSuma()));
         }
         if (mode == FrameMode.Prijem) {
             daoP = DaoFactory.INSTANCE.getPrijemDao();
-            Prijem prijem = daoP.getById(id);
+            PrijemZProdukty prijem = daoP.getById(id);
             popisLabel.setText(prijem.getPopis());
             sumaLabel.setText(String.valueOf(prijem.getProduktId()));
         }

@@ -5,9 +5,11 @@
  */
 package sk.upjs.ics.paz1c.obchodnaSiet.forms;
 
+import java.util.List;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.DodavatelDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ZamestnanecDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.Dodavatel;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Nastavenia;
 
@@ -195,7 +197,9 @@ public class HlavneOknoForm extends javax.swing.JFrame {
 
     private void dodavateliaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodavateliaButtonActionPerformed
         DodavatelDao dodavatelDao = DaoFactory.INSTANCE.getDodavatelDao();
-        new ZoznamDodavateliaForm(dodavatelDao.getDodavatelia()).setVisible(true);
+        List<Dodavatel> wat = dodavatelDao.getDodavatelia();
+        System.out.println(wat.size() + " @HlavneOkno");
+        new ZoznamDodavateliaForm(wat).setVisible(true);
         dispose();
     }//GEN-LAST:event_dodavateliaButtonActionPerformed
 

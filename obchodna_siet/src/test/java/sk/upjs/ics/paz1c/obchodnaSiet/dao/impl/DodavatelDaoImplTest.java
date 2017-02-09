@@ -53,6 +53,7 @@ public class DodavatelDaoImplTest {
         List<Dodavatel> before = instance.getDodavatelia();
         instance.saveOrEdit(dodavatel);
         List<Dodavatel> after = instance.getDodavatelia();
+        instance.delete(dodavatel);
         assertEquals(before.size() + 1, after.size());
     }
 

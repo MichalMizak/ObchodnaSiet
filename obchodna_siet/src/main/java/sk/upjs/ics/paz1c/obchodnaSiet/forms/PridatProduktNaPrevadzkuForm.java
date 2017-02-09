@@ -5,9 +5,12 @@
  */
 package sk.upjs.ics.paz1c.obchodnaSiet.forms;
 
+import java.sql.Date;
 import java.util.List;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladNaProduktyDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktNaPredajniDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.NakladNaProdukty;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Produkt;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
@@ -173,10 +176,18 @@ public class PridatProduktNaPrevadzkuForm extends javax.swing.JFrame {
         Produkt produkt = (Produkt) nazovProduktuComboBox.getSelectedItem();
         produktNaPredajni.setPrevadzkaId(prevadzka.getId());
         produktNaPredajni.setProduktId(produkt.getId());
-        produktNaPredajni.setKusy(Integer.parseInt(pocetKusovTextField.getText()));
-        produktNaPredajni.setZlava(Double.parseDouble(zlavaTextField.getText()));
+        int kusy = Integer.parseInt(pocetKusovTextField.getText());
+        produktNaPredajni.setKusy(kusy);
+        double zlava = Double.parseDouble(zlavaTextField.getText());
+        produktNaPredajni.setZlava(zlava);
+        
         ProduktNaPredajniDao dao = DaoFactory.INSTANCE.getProduktNaPredajniDao();
         dao.saveOrEdit(produktNaPredajni);
+        
+        NakladNaProduktyDao nakladNaProduktyDao = DaoFactory.INSTANCE.getNakladNaProduktyDao();
+        NakladNaProdukty naklad = nakladNaProduktyDao.createNaklad(produktNaPredajni);
+        nakladNaProduktyDao.save(naklad);
+        
         new ZoznamProduktyForm(produkty).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_pridatButtonActionPerformed

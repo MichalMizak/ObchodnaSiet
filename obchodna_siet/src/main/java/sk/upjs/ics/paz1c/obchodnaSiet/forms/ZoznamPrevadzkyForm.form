@@ -166,6 +166,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="N&#xe1;klady"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nakladButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

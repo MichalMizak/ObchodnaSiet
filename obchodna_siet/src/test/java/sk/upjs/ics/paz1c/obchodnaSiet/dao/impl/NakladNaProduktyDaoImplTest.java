@@ -1,25 +1,36 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.dao.impl;
 
-import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
-import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladNaProduktyDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktNaPredajniDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.NakladNaProdukty;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.NakladNaProdukty
+        ;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
+import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 
-public class PrijemDaoImplTest {
+/**
+ *
+ * @author Mikey
+ */
+public class NakladNaProduktyDaoImplTest {
 
-    private final PrijemDao prijemDao;
+    private final NakladNaProduktyDao prijemDao;
 
     private static final Long EXISTING_PRODUKT_ID = 115L;
     private static final Long EXISTING_PREVADZKA_ID = 266L;
 
-    public PrijemDaoImplTest() {
-        prijemDao = DaoFactory.INSTANCE.getPrijemDao();
+    public NakladNaProduktyDaoImplTest() {
+        prijemDao = DaoFactory.INSTANCE.getNakladNaProduktyDao();
     }
 
     /**
@@ -33,14 +44,17 @@ public class PrijemDaoImplTest {
         produktNaPredajniDao.saveOrEdit(new ProduktNaPredajni(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID, 0, 0));
         ProduktNaPredajni produkt = produktNaPredajniDao.getById(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID);
 
-        prijemDao.save(new PrijemZProdukty(null, "TEST",
+        prijemDao.save(new NakladNaProdukty
+        (null, "TEST",
                 new Date(System.currentTimeMillis()), produkt.getProduktId(),
                 produkt.getPrevadzkaId(), 0, 0));
 
         int pocetPo = prijemDao.getPrijmy().size();
 
-        List<PrijemZProdukty> prijmy = prijemDao.getPrijmy();
-        PrijemZProdukty prijem = prijmy.get(prijmy.size() - 1);
+        List<NakladNaProdukty
+                > prijmy = prijemDao.getPrijmy();
+        NakladNaProdukty
+                prijem = prijmy.get(prijmy.size() - 1);
         prijemDao.delete(prijem);
         produktNaPredajniDao.delete(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID);
 
@@ -56,14 +70,18 @@ public class PrijemDaoImplTest {
         produktNaPredajniDao.saveOrEdit(new ProduktNaPredajni(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID, 0, 0));
         ProduktNaPredajni produkt = produktNaPredajniDao.getById(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID);
 
-        prijemDao.save(new PrijemZProdukty(null, "TEST",
+        prijemDao.save(new NakladNaProdukty
+        (null, "TEST",
                 new Date(System.currentTimeMillis()), produkt.getProduktId(),
                 produkt.getPrevadzkaId(), 0, 0));
 
-        List<PrijemZProdukty> prijmy = prijemDao.getPrijmy();
-        PrijemZProdukty prijemToDelete = prijmy.get(prijmy.size() - 1);
+        List<NakladNaProdukty
+                > prijmy = prijemDao.getPrijmy();
+        NakladNaProdukty
+                prijemToDelete = prijmy.get(prijmy.size() - 1);
 
-        PrijemZProdukty prijem = prijemDao.getById(prijemToDelete.getId());
+        NakladNaProdukty
+                prijem = prijemDao.getById(prijemToDelete.getId());
 
         prijemDao.delete(prijemToDelete);
         produktNaPredajniDao.delete(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID);
@@ -78,7 +96,8 @@ public class PrijemDaoImplTest {
      */
     @Test
     public void testNacitajVsetkyPrijmy() {
-        List<PrijemZProdukty> prijmy = prijemDao.getPrijmy();
+        List<NakladNaProdukty
+                > prijmy = prijemDao.getPrijmy();
         assertTrue(prijmy != null);
     }
 
@@ -101,12 +120,15 @@ public class PrijemDaoImplTest {
         produktNaPredajniDao.saveOrEdit(new ProduktNaPredajni(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID, 0, 0));
         ProduktNaPredajni produkt = produktNaPredajniDao.getById(EXISTING_PRODUKT_ID, EXISTING_PREVADZKA_ID);
 
-        prijemDao.save(new PrijemZProdukty(null, "TEST",
+        prijemDao.save(new NakladNaProdukty
+        (null, "TEST",
                 new Date(System.currentTimeMillis()), produkt.getProduktId(),
                 produkt.getPrevadzkaId(), 0, 0));
 
-        List<PrijemZProdukty> prijmy = prijemDao.getPrijmy();
-        PrijemZProdukty prijem = prijmy.get(prijmy.size() - 1);
+        List<NakladNaProdukty
+                > prijmy = prijemDao.getPrijmy();
+        NakladNaProdukty
+                prijem = prijmy.get(prijmy.size() - 1);
         int pocetPred = prijmy.size();
 
         prijemDao.delete(prijem);

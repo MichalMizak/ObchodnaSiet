@@ -5,7 +5,7 @@ import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prijem;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
 
 public class ProduktNaPredajniDaoImpl implements ProduktNaPredajniDao {
 

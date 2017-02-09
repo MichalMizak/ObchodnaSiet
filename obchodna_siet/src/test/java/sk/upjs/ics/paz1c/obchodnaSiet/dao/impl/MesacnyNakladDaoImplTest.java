@@ -1,9 +1,8 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.dao.impl;
 
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
-import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrevadzkaDao;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Naklad;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.MesacnyNaklad;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
 import java.sql.Date;
 import java.util.List;
@@ -14,13 +13,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.MesacnyNakladDao;
 
-public class NakladDaoImplTest {
+public class MesacnyNakladDaoImplTest {
 
-    private final NakladDao nakladDao;
+    private final MesacnyNakladDao nakladDao;
 
-    public NakladDaoImplTest() {
-        nakladDao = DaoFactory.INSTANCE.getNakladDao();
+    public MesacnyNakladDaoImplTest() {
+        nakladDao = DaoFactory.INSTANCE.getMesacnyNakladDao();
     }
 
     @BeforeClass
@@ -51,11 +51,11 @@ public class NakladDaoImplTest {
         List<Prevadzka> prevadzky = prevadzkaDao.getPrevadzky();
         Long idPrevadzky = prevadzky.get(prevadzky.size() - 1).getId();
 
-        nakladDao.pridajNaklad(new Naklad(idPrevadzky, "TEST", new Date(System.currentTimeMillis()), 0.0));
+        nakladDao.pridajNaklad(new MesacnyNaklad(idPrevadzky, "TEST", new Date(System.currentTimeMillis()), 0.0));
 
         int pocetPo = nakladDao.nacitajVsetkyNaklady().size();
 
-        List<Naklad> naklady = nakladDao.nacitajVsetkyNaklady();
+        List<MesacnyNaklad> naklady = nakladDao.nacitajVsetkyNaklady();
         Long idNaklad = naklady.get(naklady.size() - 1).getId();
         nakladDao.odoberNaklad(idNaklad);
         prevadzkaDao.delete(idPrevadzky);
@@ -73,12 +73,12 @@ public class NakladDaoImplTest {
         List<Prevadzka> prevadzky = prevadzkaDao.getPrevadzky();
         Long idPrevadzky = prevadzky.get(prevadzky.size() - 1).getId();
 
-        nakladDao.pridajNaklad(new Naklad(idPrevadzky, "TEST", new Date(System.currentTimeMillis()), 0.0));
+        nakladDao.pridajNaklad(new MesacnyNaklad(idPrevadzky, "TEST", new Date(System.currentTimeMillis()), 0.0));
 
-        List<Naklad> naklady = nakladDao.nacitajVsetkyNaklady();
+        List<MesacnyNaklad> naklady = nakladDao.nacitajVsetkyNaklady();
         Long idNaklad = naklady.get(naklady.size() - 1).getId();
 
-        Naklad naklad = nakladDao.nacitajNaklad(idNaklad);
+        MesacnyNaklad naklad = nakladDao.nacitajNaklad(idNaklad);
 
         nakladDao.odoberNaklad(idNaklad);
         prevadzkaDao.delete(idPrevadzky);
@@ -91,7 +91,7 @@ public class NakladDaoImplTest {
      */
     @Test
     public void testNacitajVsetkyNaklady() {
-        List<Naklad> naklady = nakladDao.nacitajVsetkyNaklady();
+        List<MesacnyNaklad> naklady = nakladDao.nacitajVsetkyNaklady();
         assertTrue(naklady != null);
     }
 
@@ -114,9 +114,9 @@ public class NakladDaoImplTest {
         List<Prevadzka> prevadzky = prevadzkaDao.getPrevadzky();
         Long idPrevadzky = prevadzky.get(prevadzky.size() - 1).getId();
 
-        nakladDao.pridajNaklad(new Naklad(idPrevadzky, "TEST", new Date(System.currentTimeMillis()), 0));
+        nakladDao.pridajNaklad(new MesacnyNaklad(idPrevadzky, "TEST", new Date(System.currentTimeMillis()), 0));
 
-        List<Naklad> naklady = nakladDao.nacitajVsetkyNaklady();
+        List<MesacnyNaklad> naklady = nakladDao.nacitajVsetkyNaklady();
         Long idNaklad = naklady.get(naklady.size() - 1).getId();
         int pocetPred = naklady.size();
 

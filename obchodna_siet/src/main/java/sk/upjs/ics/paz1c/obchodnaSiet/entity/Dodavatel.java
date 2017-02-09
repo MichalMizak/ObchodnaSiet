@@ -5,14 +5,16 @@ package sk.upjs.ics.paz1c.obchodnaSiet.entity;
  * @author Mikey
  */
 public class Dodavatel {
-    
+
     private Long id;
-    
+
     private String nazov;
-    
+
     private String sidlo;
-    
+
     private String kontakt;
+
+    private Long statnyPoplatokId;
 
     public Dodavatel() {
     }
@@ -60,5 +62,12 @@ public class Dodavatel {
     public String toString() {
         return nazov + ", " + sidlo;
     }
-    
+
+    public Long getStatnyPoplatokId() {
+        return statnyPoplatokId;
+    }
+
+    public void setStatnyPoplatokId(Long statnyPoplatokId) {
+        this.statnyPoplatokId = statnyPoplatokId;
+    }
 }

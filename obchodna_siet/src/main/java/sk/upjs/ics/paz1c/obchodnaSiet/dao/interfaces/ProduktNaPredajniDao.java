@@ -2,7 +2,7 @@ package sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces;
 
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import java.util.List;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prijem;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
 
 public interface ProduktNaPredajniDao {
 

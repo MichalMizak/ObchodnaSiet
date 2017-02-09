@@ -2,7 +2,7 @@ package sk.upjs.ics.paz1c.obchodnaSiet.entity;
 
 import java.sql.Date;
 
-public class Naklad {
+public class MesacnyNaklad {
 
     private Long id;
     private Long prevadzkaId;
@@ -10,10 +10,10 @@ public class Naklad {
     private Date datum;
     private double suma;
 
-    public Naklad() {
+    public MesacnyNaklad() {
     }
 
-    public Naklad(Long prevadzkaId, String popis, Date datum, double suma) {
+    public MesacnyNaklad(Long prevadzkaId, String popis, Date datum, double suma) {
         this.prevadzkaId = prevadzkaId;
         this.popis = popis;
         this.datum = datum;

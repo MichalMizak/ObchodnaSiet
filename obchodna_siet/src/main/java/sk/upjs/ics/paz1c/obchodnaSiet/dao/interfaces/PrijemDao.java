@@ -1,23 +1,23 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces;
 
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prijem;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
 import java.util.List;
 
 public interface PrijemDao {
 
-    void save(Prijem prijem);
+    void save(PrijemZProdukty prijem);
 
-    Prijem getById(Long id);
+    PrijemZProdukty getById(Long id);
 
-    List<Prijem> getPrijmy();
+    List<PrijemZProdukty> getPrijmy();
 
-    List<Prijem> getPrijmyByPrevadzka(Long prevadzkaId);
+    List<PrijemZProdukty> getPrijmyByPrevadzka(Long prevadzkaId);
     
-    void edit(Prijem prijem);
+    void edit(PrijemZProdukty prijem);
 
-    void delete(Prijem prijem);
+    void delete(PrijemZProdukty prijem);
 
-    double getSuma(Prijem prijem);
+    double getSuma(PrijemZProdukty prijem);
     
     double getSuma(Long prevadzkaId);
 }

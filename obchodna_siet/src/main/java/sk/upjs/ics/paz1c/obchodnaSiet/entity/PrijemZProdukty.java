@@ -2,16 +2,17 @@ package sk.upjs.ics.paz1c.obchodnaSiet.entity;
 
 import java.sql.Date;
 
-public class Prijem extends ProduktNaPredajni {
+public class PrijemZProdukty extends ProduktNaPredajni {
 
     private Long id;
     private String popis;
     private Date datum;
+    private double suma;
 
-    public Prijem() {
+    public PrijemZProdukty() {
     }
 
-    public Prijem(Long id, String popis, Date datum, Long produktId, Long prevadzkaId, double zlava, int kusy) {
+    public PrijemZProdukty(Long id, String popis, Date datum, Long produktId, Long prevadzkaId, double zlava, int kusy) {
         super(produktId, prevadzkaId, zlava, kusy);
         this.id = id;
         this.popis = popis;
@@ -40,6 +41,14 @@ public class Prijem extends ProduktNaPredajni {
 
     public void setDatum(Date datum) {
         this.datum = datum;
+    }
+
+    public double getSuma() {
+        return suma;
+    }
+
+    public void setSuma(double suma) {
+        this.suma = suma;
     }
 
     @Override

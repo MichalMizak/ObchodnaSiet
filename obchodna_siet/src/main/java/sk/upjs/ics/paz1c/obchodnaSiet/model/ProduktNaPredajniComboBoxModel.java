@@ -6,7 +6,7 @@ import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrevadzkaDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktNaPredajniDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prijem;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 

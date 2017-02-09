@@ -9,7 +9,6 @@ import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Produkt;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel;
-import sk.upjs.ics.paz1c.obchodnaSiet.model.ProduktListModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.ProduktTableModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 

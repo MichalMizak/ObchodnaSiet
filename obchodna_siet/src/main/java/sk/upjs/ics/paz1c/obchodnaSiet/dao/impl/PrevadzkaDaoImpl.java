@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.TransactionNumberDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.history.PrevadzkaHistoryDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.backupable.Backupable;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladNaProduktyDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.DatabaseSequence;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.TableName;
@@ -93,12 +95,16 @@ public class PrevadzkaDaoImpl extends Backupable implements PrevadzkaDao {
 //        if (naklad == null && prijem == null) {
 //            return Double.MIN_VALUE;
 //        }
-//        if (naklad == null) {
-//            return prijem;
-//        }
-//        if (prijem == null) {
-//            return -naklad;
-//        }
-//        return prijem - naklad;
 //    }
+    @Override
+    public double getZisk(Long id) {
+        PrijemDao prijemDao = DaoFactory.INSTANCE.getPrijemDao();
+        double prijem = prijemDao.getSuma(id);
+
+        NakladNaProduktyDao nakladNaProduktyDao = DaoFactory.INSTANCE.getNakladNaProduktyDao();
+        double naklad = nakladNaProduktyDao.getSuma(id);
+
+        return prijem - naklad;
+
+    }
 }

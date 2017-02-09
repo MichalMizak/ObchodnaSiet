@@ -23,8 +23,8 @@ public class ZoznamDodavateliaForm extends javax.swing.JFrame {
      */
     public ZoznamDodavateliaForm(List<Dodavatel> dodavatelia) {
         setUndecorated(true);
-        initComponents();
         this.dodavatelia = dodavatelia;
+        initComponents();
         this.setLocationRelativeTo(null);
         refreshDodavatelTableModel();
     }
@@ -140,7 +140,7 @@ public class ZoznamDodavateliaForm extends javax.swing.JFrame {
         }
         //new OdobratProduktDialogForm(this, true, produkt).setVisible(true);
         dodavatelDao.delete(dodavatel);
-        dodavatelia = dodavatelDao.getDodavatelia();
+        dodavatelia.remove(dodavatel);
 
         refreshDodavatelTableModel();
     }//GEN-LAST:event_odobratDodavatelaButtonActionPerformed
@@ -176,16 +176,16 @@ public class ZoznamDodavateliaForm extends javax.swing.JFrame {
         if (selectedRow == -1) {
             return null;
         } else {
-            return getProduktTableModel().getItemAt(selectedRow);
+            return getDodavatelTableModel().getItemAt(selectedRow);
         }
     }
 
     private void refreshDodavatelTableModel() {
-        DodavatelTableModel model = getProduktTableModel();
+        DodavatelTableModel model = getDodavatelTableModel();
         model.refresh(dodavatelia);
     }
 
-    private DodavatelTableModel getProduktTableModel() {
+    private DodavatelTableModel getDodavatelTableModel() {
         return (DodavatelTableModel) dodavatelTable.getModel();
     }
 }

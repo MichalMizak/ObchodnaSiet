@@ -59,7 +59,7 @@ public class PrevadzkyTableModel extends AbstractTableModel {
             case 2:
                 return zamestnanecDao.getZamestnanciByPrevadzka(prevadzka.getId()).size();
             case 3:
-                return prijemDao.getSuma(prevadzka.getId());
+                return prevadzkaDao.getZisk(prevadzka.getId());
             case 4:
                 return prevadzka.getOtvaracieHodiny();
         }

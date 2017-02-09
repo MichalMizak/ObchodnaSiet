@@ -104,6 +104,11 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
 
         nakladButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         nakladButton.setText("Náklady");
+        nakladButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nakladButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,7 +165,6 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
     }//GEN-LAST:event_spatButtonActionPerformed
 
     private void detailPrevadzkyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailPrevadzkyButtonActionPerformed
-        Prevadzka prevadzka = getSelectedPrevadzka();
 //        if (prevadzka == null) {
 //            JOptionPane.showMessageDialog(this, OZNACTE_PREVADZKU_MESSAGE);
 //            return;
@@ -196,6 +200,11 @@ public class ZoznamPrevadzkyForm extends javax.swing.JFrame {
         refreshPrevadzkyTableModel();
         dispose();
     }//GEN-LAST:event_upravitPrevadzkuButtonActionPerformed
+
+    private void nakladButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nakladButtonActionPerformed
+        new ZoznamNakladNaProduktyForm().setVisible(true);
+        dispose();
+     }//GEN-LAST:event_nakladButtonActionPerformed
 
     private Prevadzka getSelectedPrevadzka() {
         int selectedRow = prevadzkyTable.getSelectedRow();

@@ -1,36 +1,39 @@
 package sk.upjs.ics.paz1c.obchodnaSiet.dao.impl;
 
-import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.backupable.Backupable;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladNaProduktyDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.TransactionNumberDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.history.ProduktHistoryDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.NakladNaProdukty;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.NakladNaProdukty;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Produkt;
-import sk.upjs.ics.paz1c.obchodnaSiet.dao.backupable.Backupable;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.DatabaseSequence;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.TableName;
 
-public class PrijemDaoImpl extends Backupable implements PrijemDao {
+/**
+ *
+ * @author Mikey
+ */
+public class NakladNaProduktyDaoImpl extends Backupable implements NakladNaProduktyDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    public PrijemDaoImpl(JdbcTemplate jdbcTemplate) {
-        setJdbcTemplate(jdbcTemplate);
-        setTableName(TableName.prijem);
-    }
-
-    protected final void setJdbcTemplate(JdbcTemplate jdbcTemplate1) {
-        this.jdbcTemplate = jdbcTemplate1;
+    public NakladNaProduktyDaoImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        setTableName(TableName.naklad_na_produkty);
     }
 
     @Override
-    public void save(PrijemZProdukty prijem) {
+    public void save(NakladNaProdukty prijem) {
         TransactionNumberDao transactionNumberDao = DaoFactory.INSTANCE.getTransactionNumberDao();
 
         Long generatedId = transactionNumberDao.getNextTransactionNumberFromSequence(DatabaseSequence.prijem_sequence);
@@ -43,21 +46,21 @@ public class PrijemDaoImpl extends Backupable implements PrijemDao {
     }
 
     @Override
-    public PrijemZProdukty getById(Long id) {
+    public NakladNaProdukty getById(Long id) {
         String sql = "SELECT p.id, p.popis, p.datum, p.produkt_id, p.prevadzka_id,"
                 + " p.zlava, p.kusy, p.suma from " + getTableName().toString() + " p WHERE p.id=?";
         return jdbcTemplate.queryForObject(sql, new PrijemRowMapper(), id);
     }
 
     @Override
-    public List<PrijemZProdukty> getPrijmy() {
+    public List<NakladNaProdukty> getPrijmy() {
         String sql = "SELECT p.id, p.popis, p.datum, p.produkt_id, p.prevadzka_id, "
                 + "p.zlava, p.kusy, p.suma from " + getTableName().toString() + " p";
         return jdbcTemplate.query(sql, new PrijemRowMapper());
     }
 
     @Override
-    public List<PrijemZProdukty> getPrijmyByPrevadzka(Long prevadzkaId) {
+    public List<NakladNaProdukty> getPrijmyByPrevadzka(Long prevadzkaId) {
         String sql = "SELECT p.id, p.popis, p.datum, p.produkt_id, p.prevadzka_id,"
                 + " p.zlava, p.kusy, p.suma from " + getTableName().toString() + " p "
                 + "WHERE p.prevadzka_id = ?";
@@ -66,24 +69,24 @@ public class PrijemDaoImpl extends Backupable implements PrijemDao {
 
     // TODO
     @Override
-    public void edit(PrijemZProdukty prijem) {
+    public void edit(NakladNaProdukty prijem) {
         String sql = "UPDATE " + getTableName().toString() + " SET popis = ?, "
                 + "datum = ?, produkt_id = ?, prevadzka_id = ?, zlava = ?, kusy = ?, "
                 + "suma = ? WHERE id = ?";
         jdbcTemplate.update(sql, prijem.getPopis(), prijem.getDatum(),
-                prijem.getProduktId(), prijem.getPrevadzkaId(), prijem.getZlava(), 
+                prijem.getProduktId(), prijem.getPrevadzkaId(), prijem.getZlava(),
                 prijem.getKusy(), prijem.getSuma(), prijem.getId());
     }
 
     @Override
-    public void delete(PrijemZProdukty prijem) {
+    public void delete(NakladNaProdukty prijem) {
         String sql = "DELETE FROM " + getTableName().toString() + " WHERE id=" + prijem.getId();
         jdbcTemplate.execute(sql);
     }
 
     // todo manager layer
     @Override
-    public double getSuma(PrijemZProdukty prijem) {
+    public double getSuma(NakladNaProdukty prijem) {
 
         ProduktDao produktDao = DaoFactory.INSTANCE.getProduktDao();
         Long produktId = prijem.getProduktId();
@@ -98,44 +101,44 @@ public class PrijemDaoImpl extends Backupable implements PrijemDao {
         double zlava = prijem.getZlava();
 
         return (produkt.getPredajnaCena() * (1 - (zlava / 100))) * kusy;
-
-//        
-//        ProduktNaPredajniDao produktNaPredajniDao = DaoFactory.INSTANCE.getProduktNaPredajniDao();
-//        ProduktNaPredajni produktNaPredajni = produktNaPredajniDao.getById(prijem.getProduktId(), prijem.getPrevadzkaId());
-//
-//        int count = produktNaPredajni.getKusy();
-//        double zlava = produktNaPredajni.getZlava();
-//
-//        ProduktDao produktDao = DaoFactory.INSTANCE.getProduktDao();
-//        Produkt produkt = produktDao.getById(produktNaPredajni.getProduktId());
-//
     }
 
     @Override
     public double getSuma(Long prevadzkaId) {
-        List<PrijemZProdukty> prijmy = getPrijmyByPrevadzka(prevadzkaId);
+        List<NakladNaProdukty> naklady = getPrijmyByPrevadzka(prevadzkaId);
         double result = 0;
-        for (PrijemZProdukty prijem : prijmy) {
+        for (NakladNaProdukty prijem : naklady) {
             result += prijem.getSuma();
         }
         return result;
     }
 
-    private class PrijemRowMapper implements RowMapper<PrijemZProdukty> {
+    @Override
+    public NakladNaProdukty createNaklad(ProduktNaPredajni pnp) {
+        NakladNaProdukty naklad = new NakladNaProdukty(null, "Pridávanie produktu na prevádzku",
+                new Date(0), pnp.getProduktId(), pnp.getPrevadzkaId(), pnp.getKusy(), (int) pnp.getZlava());
+
+        naklad.setSuma(getSuma(naklad));
+        
+        return naklad;
+    }
+
+    private class PrijemRowMapper implements RowMapper<NakladNaProdukty> {
 
         @Override
-        public PrijemZProdukty mapRow(ResultSet rs, int i) throws SQLException {
-            PrijemZProdukty prijem = new PrijemZProdukty();
-            prijem.setId(rs.getLong("id"));
-            prijem.setPopis(rs.getString("popis"));
-            prijem.setDatum(rs.getDate("datum"));
-            prijem.setProduktId(rs.getLong("produkt_id"));
-            prijem.setPrevadzkaId(rs.getLong("prevadzka_id"));
-            prijem.setKusy(rs.getInt("kusy"));
-            prijem.setZlava(rs.getDouble("Zlava"));
-            prijem.setSuma(rs.getDouble("suma"));
+        public NakladNaProdukty mapRow(ResultSet rs, int i) throws SQLException {
+            NakladNaProdukty naklad = new NakladNaProdukty();
+            naklad.setId(rs.getLong("id"));
+            naklad.setPopis(rs.getString("popis"));
+            naklad.setDatum(rs.getDate("datum"));
+            naklad.setProduktId(rs.getLong("produkt_id"));
+            naklad.setPrevadzkaId(rs.getLong("prevadzka_id"));
+            naklad.setKusy(rs.getInt("kusy"));
+            naklad.setZlava(rs.getDouble("Zlava"));
+            naklad.setSuma(rs.getDouble("suma"));
 
-            return prijem;
+            return naklad;
         }
     }
+
 }

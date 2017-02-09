@@ -2,37 +2,32 @@ package sk.upjs.ics.paz1c.obchodnaSiet.model;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladNaProduktyDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrevadzkaDao;
-import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktDao;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.NakladNaProdukty;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
 
-/**
- *
- * @author Mikey
- */
-public class PrijemTableModel extends AbstractTableModel {
 
+public class NakladNaProduktyTableModel extends AbstractTableModel {
+    
     private static final String[] COLUMN_TITLES = {"Popis", "Suma", "Dátum", "Prevádzka", "Produkt"};
 
     private static final int COLUMN_COUNT = COLUMN_TITLES.length;
 
-    private static final String NEPRIRADENY_MESSAGE = "Nepriradený";
+    private List<NakladNaProdukty> naklady;
 
-    private List<PrijemZProdukty> prijmy;
-
-    private PrijemDao prijemDao = DaoFactory.INSTANCE.getPrijemDao();
+    private NakladNaProduktyDao prijemDao = DaoFactory.INSTANCE.getNakladNaProduktyDao();
     private PrevadzkaDao prevadzkaDao = DaoFactory.INSTANCE.getPrevadzkaDao();
     private ProduktDao produktDao = DaoFactory.INSTANCE.getProduktDao();
 
-    public PrijemTableModel(List<PrijemZProdukty> prijmy) {
-        this.prijmy = prijmy;
+    public NakladNaProduktyTableModel(List<NakladNaProdukty> naklady) {
+        this.naklady = naklady;
     }
 
     @Override
     public int getRowCount() {
-        return prijmy == null ? 0 : prijmy.size();
+        return naklady == null ? 0 : naklady.size();
     }
 
     @Override
@@ -47,7 +42,7 @@ public class PrijemTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        PrijemZProdukty prijem = prijmy.get(rowIndex);
+        NakladNaProdukty prijem = naklady.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
@@ -65,12 +60,13 @@ public class PrijemTableModel extends AbstractTableModel {
         }
     }
 
-    public void refresh(List<PrijemZProdukty> prijmy) {
-        this.prijmy = prijmy;
+    public void refresh(List<NakladNaProdukty> naklady) {
+        this.naklady = naklady;
         fireTableDataChanged();
     }
 
-    public PrijemZProdukty getItemAt(int selectedRow) {
-        return prijmy.get(selectedRow);
+    public NakladNaProdukty getItemAt(int selectedRow) {
+        return naklady.get(selectedRow);
     }
 }
+

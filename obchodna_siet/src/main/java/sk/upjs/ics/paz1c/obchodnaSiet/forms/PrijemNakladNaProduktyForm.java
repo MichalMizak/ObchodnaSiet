@@ -3,48 +3,51 @@ package sk.upjs.ics.paz1c.obchodnaSiet.forms;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.ProduktNaPredajniComboBoxModel;
 import java.sql.Date;
 import java.util.List;
-import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
-import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.DodavatelDao;
+import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.NakladNaProduktyDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrevadzkaDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.PrijemDao;
 import sk.upjs.ics.paz1c.obchodnaSiet.dao.interfaces.ProduktNaPredajniDao;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Dodavatel;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.NakladNaProdukty;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prevadzka;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Prijem;
-import sk.upjs.ics.paz1c.obchodnaSiet.entity.Produkt;
+import sk.upjs.ics.paz1c.obchodnaSiet.entity.PrijemZProdukty;
 import sk.upjs.ics.paz1c.obchodnaSiet.entity.ProduktNaPredajni;
 import sk.upjs.ics.paz1c.obchodnaSiet.model.PrevadzkaComboBoxModel;
 import sk.upjs.ics.paz1c.obchodnaSiet.other.DaoFactory;
+import sk.upjs.ics.paz1c.obchodnaSiet.other.enums.FrameMode;
 
 /**
  *
  * @author Mikey
  */
-public class PrijemForm extends javax.swing.JFrame {
+public class PrijemNakladNaProduktyForm extends javax.swing.JFrame {
 
     private boolean editMode;
-    private Prijem prijem;
-    private List<Prijem> prijmy;
+    private PrijemZProdukty prijem;
+    private List<? extends PrijemZProdukty> prijmy;
     private PrevadzkaDao prevadzkaDao = DaoFactory.INSTANCE.getPrevadzkaDao();
     private ProduktNaPredajniDao produktNaPredajniDao = DaoFactory.INSTANCE.getProduktNaPredajniDao();
 
-    public PrijemForm(List<Prijem> prijmy) {
+    private FrameMode frameMode;
+
+    public PrijemNakladNaProduktyForm(List<? extends PrijemZProdukty> prijmy, FrameMode frameMode) {
         setUndecorated(true);
         initComponents();
         this.setLocationRelativeTo(null);
         editMode = false;
-        prijem = new Prijem();
+        prijem = new PrijemZProdukty();
         this.prijmy = prijmy;
+        this.frameMode = frameMode;
     }
 
-    public PrijemForm(List<Prijem> produkty, Prijem prijem) {
+    public PrijemNakladNaProduktyForm(List<? extends PrijemZProdukty> produkty, PrijemZProdukty prijem, FrameMode frameMode) {
         setUndecorated(true);
         initComponents();
         this.setLocationRelativeTo(null);
         editMode = true;
         this.prijem = prijem;
         this.prijmy = produkty;
+        this.frameMode = frameMode;
         initTextFields();
     }
 
@@ -61,7 +64,7 @@ public class PrijemForm extends javax.swing.JFrame {
             ProduktNaPredajni pnp = produktNaPredajniDao.getById(prijem.getProduktId(), prijem.getPrevadzkaId());
 
             if (pnp == null) {
-                JOptionPane.showMessageDialog(this, "Príjem je sa týka nenaskladneného tovaru, nie je možné ho upravovať");
+                JOptionPane.showMessageDialog(this, "Položka sa týka nenaskladneného tovaru, nie je možné ju upravovať");
                 spatButtonActionPerformed(null);
             }
 
@@ -70,7 +73,6 @@ public class PrijemForm extends javax.swing.JFrame {
         }
 
         kusyTextField.setText(Integer.toString(prijem.getKusy()));
-
         pridatButton.setText("Upraviť");
     }
 
@@ -83,6 +85,7 @@ public class PrijemForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         popisTextField = new javax.swing.JTextField();
@@ -96,6 +99,10 @@ public class PrijemForm extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         prevadzkyComboBox = new javax.swing.JComboBox<>();
         produktNaPredajniComboBox = new javax.swing.JComboBox<>();
+        sumaValueLabel = new javax.swing.JLabel();
+        sumaButton = new javax.swing.JButton();
+
+        jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,6 +129,11 @@ public class PrijemForm extends javax.swing.JFrame {
         jLabel4.setText("Kusy:");
 
         kusyTextField.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        kusyTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kusyTextFieldActionPerformed(evt);
+            }
+        });
 
         produktNaPredajniLabel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         produktNaPredajniLabel.setText("Produkt:");
@@ -163,7 +175,19 @@ public class PrijemForm extends javax.swing.JFrame {
             }
         });
 
+        produktNaPredajniComboBox.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         produktNaPredajniComboBox.setModel(new ProduktNaPredajniComboBoxModel(getSelectedPrevadzka()));
+
+        sumaValueLabel.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        sumaValueLabel.setText("-");
+
+        sumaButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        sumaButton.setText("Zrátaj sumu:");
+        sumaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sumaButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -172,25 +196,28 @@ public class PrijemForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pridatButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(spatButton))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(produktNaPredajniLabel)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(sumaButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(datumTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                             .addComponent(popisTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(kusyTextField)
                             .addComponent(prevadzkyComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(produktNaPredajniComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(produktNaPredajniComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sumaValueLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(pridatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(spatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -218,11 +245,14 @@ public class PrijemForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(kusyTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pridatButton)
-                    .addComponent(spatButton))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(sumaValueLabel)
+                        .addComponent(sumaButton)
+                        .addComponent(spatButton))
+                    .addComponent(pridatButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -251,25 +281,50 @@ public class PrijemForm extends javax.swing.JFrame {
             prijem.setPrevadzkaId(pnp.getPrevadzkaId());
             prijem.setProduktId(pnp.getProduktId());
             prijem.setZlava(pnp.getZlava());
+
+            PrijemDao prijemDao = DaoFactory.INSTANCE.getPrijemDao();
+            double suma = prijemDao.getSuma(prijem);
+            prijem.setSuma(suma);
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Upravte výber");
             return;
         }
-        PrijemDao produktDao = DaoFactory.INSTANCE.getPrijemDao();
 
-        if (editMode) {
-            produktDao.edit(prijem);
-        } else {
-            prijmy.add(prijem);
-            produktDao.save(prijem);
+        if (frameMode == FrameMode.Prijem) {
+            PrijemDao produktDao = DaoFactory.INSTANCE.getPrijemDao();
+
+            if (editMode) {
+                produktDao.edit(prijem);
+            } else {
+                //prijmy.add(prijem);
+                produktDao.save(prijem);
+            }
+            pnp.setKusy(pnp.getKusy() - prijem.getKusy());
+            produktNaPredajniDao.saveOrEdit(pnp);
+            new ZoznamPrijemForm().setVisible(true);
+        } else if (frameMode == FrameMode.Naklad) {
+            NakladNaProduktyDao nakladNaProduktyDao = DaoFactory.INSTANCE.getNakladNaProduktyDao();
+            NakladNaProdukty naklad = new NakladNaProdukty(prijem);
+            if (editMode) {
+                nakladNaProduktyDao.edit(naklad);
+            } else {
+                //prijmy.add(prijem);
+                nakladNaProduktyDao.save(naklad);
+            }
+            pnp.setKusy(pnp.getKusy() + prijem.getKusy());
+            new ZoznamNakladNaProduktyForm().setVisible(true);
         }
-
-        new ZoznamPrijemForm().setVisible(true);
         this.dispose();
+
     }//GEN-LAST:event_pridatButtonActionPerformed
 
     private void spatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spatButtonActionPerformed
-        new ZoznamPrijemForm().setVisible(true);
+        if (frameMode == FrameMode.Prijem) {
+            new ZoznamPrijemForm().setVisible(true);
+        } else if (frameMode == FrameMode.Naklad) {
+            new ZoznamNakladNaProduktyForm().setVisible(true);
+        }
         this.dispose();
     }//GEN-LAST:event_spatButtonActionPerformed
 
@@ -285,12 +340,41 @@ public class PrijemForm extends javax.swing.JFrame {
         } else {
             getProduktNaPredajniComboBoxModel().refresh(selectedPrevadzka);
         }
-
     }//GEN-LAST:event_prevadzkyComboBoxActionPerformed
 
     private void prevadzkyComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_prevadzkyComboBoxPropertyChange
 
     }//GEN-LAST:event_prevadzkyComboBoxPropertyChange
+
+    private void kusyTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kusyTextFieldActionPerformed
+
+    }//GEN-LAST:event_kusyTextFieldActionPerformed
+
+    private void sumaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumaButtonActionPerformed
+        try {
+            PrijemZProdukty prijem = new PrijemZProdukty();
+            ProduktNaPredajni pnp = getSelectedProduktNaPredajni();
+            int kusy = Integer.parseInt(kusyTextField.getText());
+            if (kusy > pnp.getKusy()) {
+                sumaValueLabel.setText("-");
+                return;
+            }
+            prijem.setKusy(kusy);
+
+            prijem.setPrevadzkaId(pnp.getPrevadzkaId());
+            prijem.setProduktId(pnp.getProduktId());
+            prijem.setZlava(pnp.getZlava());
+
+            PrijemDao prijemDao = DaoFactory.INSTANCE.getPrijemDao();
+
+            double suma = prijemDao.getSuma(prijem);
+
+            sumaValueLabel.setText(Double.toString(suma));
+
+        } catch (Exception parsingError) {
+            sumaValueLabel.setText("-");
+        }
+    }//GEN-LAST:event_sumaButtonActionPerformed
 
     private PrevadzkaComboBoxModel getPrevadzkyComboBoxModel() {
         return (PrevadzkaComboBoxModel) prevadzkyComboBox.getModel();
@@ -307,6 +391,7 @@ public class PrijemForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField kusyTextField;
     private javax.swing.JTextField popisTextField;
     private javax.swing.JComboBox<Prevadzka> prevadzkyComboBox;
@@ -314,6 +399,8 @@ public class PrijemForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<ProduktNaPredajni> produktNaPredajniComboBox;
     private javax.swing.JLabel produktNaPredajniLabel;
     private javax.swing.JButton spatButton;
+    private javax.swing.JButton sumaButton;
+    private javax.swing.JLabel sumaValueLabel;
     // End of variables declaration//GEN-END:variables
 
     private ProduktNaPredajniComboBoxModel getProduktNaPredajniComboBoxModel() {
